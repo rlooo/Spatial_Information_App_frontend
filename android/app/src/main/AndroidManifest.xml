@@ -3,6 +3,9 @@
 
         <uses-permission android:name="android.permission.INTERNET"/>
         <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+        <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
         <meta-data android:name="com.kakao.sdk.AppKey" android:value="9e4958a9e80e2426594954ea61c9c95b"/>
 
    <application
@@ -31,16 +34,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- 2. Setup Kakao -->
-        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity">
-            <intent-filter>
+        <activity android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity">
+            <intent-filter android:label="flutter_web_auth">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
-                <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
-                <data android:host="oauth"
-                    android:scheme="9e4958a9e80e2426594954ea61c9c95b" />
+                <!-- Redirect URI, "kakao${YOUR_NATIVE_APP_KEY}://oauth" 형식 -->
+                <data android:scheme="kakao9e4958a9e80e2426594954ea61c9c95b" android:host="oauth"/>
             </intent-filter>
         </activity>
 
@@ -63,13 +63,15 @@
                <action android:name="android.intent.action.VIEW"/>
                <category android:name="android.intent.category.DEFAULT"/>
                <category android:name="android.intent.category.BROWSABLE"/>
-               <data android:scheme="9e4958a9e80e2426594954ea61c9c95b" android:host="oauth"/>
+               <data android:scheme="kakao9e4958a9e80e2426594954ea61c9c95b" android:host="oauth"/>
            </intent-filter>
        </activity>
+
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyAmtuF2QPubtProGx_a-m06IrfXE_Gd1UQ"/>
 
     </application>
     <queries>
         <package android:name="com.kakao.talk" />
     </queries>
-    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
