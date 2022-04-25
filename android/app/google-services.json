@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "918999689604",
+    "project_id": "spartialdatainfrastructu-d858a",
+    "storage_bucket": "spartialdatainfrastructu-d858a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918999689604:android:db9cb4529740f024f595d1",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "918999689604-l1vv8f1e3vifu99kf8240pp1hno902q1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_application",
+            "certificate_hash": "d5a436b4821db2f92b44b040094a0353cb730bf7"
+          }
+        },
+        {
+          "client_id": "918999689604-8jccucaamlhij5ql9v1mq23euat4he9r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQXnCRJUw4yqjE0k-cYcQUkgpQuFKtX0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "918999689604-8jccucaamlhij5ql9v1mq23euat4he9r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
