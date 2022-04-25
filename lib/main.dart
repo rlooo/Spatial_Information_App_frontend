@@ -21,7 +21,6 @@ import 'package:flutter_application/theme.dart';
 import 'package:sqflite/sqflite.dart';
 
 void main() {
-  // KakaoContext.clientId = '9e4958a9e80e2426594954ea61c9c95b';
   KakaoSdk.init(nativeAppKey: '9e4958a9e80e2426594954ea61c9c95b');
   runApp(MyApp());
 }

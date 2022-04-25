@@ -50,12 +50,12 @@ dependencies:
   kakao_flutter_sdk: ^1.1.0
   firebase_database_web: ^0.2.0+10
   sqflite:
-  flutter_kakao_login: ^3.4.0
-  flutter_google_street_view: ^1.0.2
+  flutter_google_street_view: ^2.2.7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  
 
 dev_dependencies:
   flutter_test:

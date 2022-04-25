@@ -49,14 +49,6 @@ Future<List<PutOutBoard>?> fetchPutOutBoard() async {
   throw Exception('데이터 수신 실패');
 }
 
-Future<String> loadJson() async {
-  final response = await http.get(Uri.parse('http://10.0.2.2:8000/board/list'));
-  if (response.statusCode == 200) {
-    return response.body;
-  }
-  throw Exception('데이터 수신 실패');
-}
-
 class MapPage extends StatefulWidget {
   // List<PutOutBoard> Data = List.empty(growable: true);
   @override
@@ -106,8 +98,8 @@ class _MapPageState extends State<MapPage> {
                       width: size.width,
                       height: 500,
                       kakaoMapKey: kakaoMapKey,
-                      lat: 33.450701,
-                      lng: 126.570667,
+                      lat: 37.5968892270727,
+                      lng: 127.07535510578,
                       showMapTypeControl: true,
                       showZoomControl: true,
                       mapController: (controller) {
@@ -127,9 +119,9 @@ class _MapPageState extends State<MapPage> {
       markers.push(marker);
     }
 
-    function displayMarker(position1, position2, index) {
+    function displayMarker(latitude, longitude, index) {
       
-      addMarker(new kakao.maps.LatLng(position1, position2));
+      addMarker(new kakao.maps.LatLng(latitude, longitude));
       
     
       kakao.maps.event.addListener(markers[index], 'click', (function(i) {

@@ -4,10 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/data/putOutBoard.dart';
 import 'package:flutter_application/data/wish.dart';
+import 'package:flutter_application/sub/applySpace.dart';
+import 'package:flutter_application/sub/streetView.dart';
+import 'package:flutter_google_street_view/flutter_google_street_view.dart';
 import 'package:get/get.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
 import '../src/databaseApp.dart';
 import 'lookFor.dart';
@@ -35,6 +39,7 @@ class _DetailPage extends State<DetailPage> {
   var pk = Get.arguments;
 
   var id;
+  var address;
   var area;
   var floor;
   var deposit;
@@ -43,6 +48,8 @@ class _DetailPage extends State<DetailPage> {
   var range;
   var facility;
   var images;
+  var latitude;
+  var longitude;
 
   bool _isPressed = false;
   final _model = DatabaseApp(); //데이터베이스
@@ -83,6 +90,7 @@ class _DetailPage extends State<DetailPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             id = snapshot.data!.id.toString();
+            address = snapshot.data!.address;
             area = snapshot.data!.area.toString();
             floor = snapshot.data!.floor.toString();
             deposit = snapshot.data!.deposit.toString();
@@ -91,6 +99,8 @@ class _DetailPage extends State<DetailPage> {
             range = snapshot.data!.range;
             facility = snapshot.data!.facility;
             images = snapshot.data!.images;
+            latitude = snapshot.data!.latitude;
+            longitude = snapshot.data!.longitude;
 
             return Scaffold(
               resizeToAvoidBottomInset: false,
@@ -154,7 +164,7 @@ class _DetailPage extends State<DetailPage> {
                             Text('신규입점·1층·9평',
                                 style: Theme.of(context).textTheme.subtitle2),
                             Text(
-                              '대로변무권리,신호등앞,투썸앞,부동산자리,음식점가능,유동터짐',
+                              '${address}',
                               style: Theme.of(context).textTheme.headline1,
                             ),
                             Text('근린상가·서초동·조회63',
@@ -250,40 +260,24 @@ class _DetailPage extends State<DetailPage> {
                         ),
                       ),
                       Divider(thickness: 1, height: 0.5, color: Colors.grey),
-                      KakaoMapView(
-                        width: size.width,
-                        height: 300,
-                        kakaoMapKey: kakaoMapKey,
-                        lat: 33.450701,
-                        lng: 126.570667,
-                        showMapTypeControl: true,
-                        showZoomControl: true,
-                        mapController: (controller) {
-                          _mapController = controller;
-                        },
-                        markerImageURL:
-                            'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
-                        customScript: '''
-              var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
-              var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
-              var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
-              
-              var position = new kakao.maps.LatLng(33.450701, 126.570667);
-              
-              // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
-              roadviewClient.getNearestPanoId(position, 50, function(panoId) {
-                  roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
-              });
-                ''',
-                      ),
+                      ElevatedButton(
+                          child: Text(
+                            '로드뷰',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.white)),
+                          onPressed: () {
+                            Get.to(() => StreetViewPanoramaInitDemo(), arguments: [latitude, longitude]);
+                          }),
                     ],
                   ),
                 ),
               ),
               floatingActionButton: FloatingActionButton.extended(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LookForPage()));
+                  Get.to(() => ApplySpacePage(), arguments: [id, address]);
                 },
                 label: const Text('신청하기'),
               ),

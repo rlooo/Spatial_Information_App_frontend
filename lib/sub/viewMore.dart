@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/sub/lookFor.dart';
+import 'package:flutter_application/sub/putOut1.dart';
+import 'package:get/get.dart';
 
 import 'imageUpload.dart';
 import 'kakaoLogin.dart';
@@ -48,11 +51,15 @@ class ViewMoreApp extends StatelessWidget {
             ),
             ListTile(
               title: Text('공간구해요'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => LookForPage());
+              },
             ),
             ListTile(
               title: Text('공간 나눠요'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => putOutPage1());
+              },
             ),
             ListTile(
               title: Text('Q&A'),

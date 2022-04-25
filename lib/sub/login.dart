@@ -79,7 +79,7 @@ class _LoginPage extends State<LoginPage> {
 
     final tokenResult = await http.get(
         Uri.parse('http://10.0.2.2:8000/user/signin/kakao/token?code=$code'));
-
+    print(tokenResult);
     final uid = json.decode(tokenResult.body)['uid'];
     final email = json.decode(tokenResult.body)['email'];
     final nickname = json.decode(tokenResult.body)['nickname'];
