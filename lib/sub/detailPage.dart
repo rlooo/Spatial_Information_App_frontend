@@ -12,6 +12,7 @@ import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../src/databaseApp.dart';
 import 'lookFor.dart';
@@ -38,6 +39,10 @@ class DetailPage extends StatefulWidget {
 class _DetailPage extends State<DetailPage> {
   var pk = Get.arguments;
 
+  bool _isPressed=false;
+  final _model = DatabaseApp(); //데이터베이스
+  var _mapController;
+
   var id;
   var address;
   var area;
@@ -51,34 +56,40 @@ class _DetailPage extends State<DetailPage> {
   var latitude;
   var longitude;
 
-  bool _isPressed = false;
-  final _model = DatabaseApp(); //데이터베이스
+  
 
-  var _mapController;
+Future<void> wish(bool _isPressed) async{
+  if(_isPressed==true){
+    await _model.insertWish(Wish(putout_id:pk));}
+  else {await _model.deleteWish(pk);}
+}
 
-  void setWishButton(int putout_id) {
-    if (_model.getWish(putout_id) != Null) {
-      print(_model.getWish(putout_id));
-      _isPressed = true;
-    } else
-      _isPressed = false;
+  //_isPressed의 값을 저장하기
+  void setData(bool value) async{
+    var key='_isPressed${pk}';
+    SharedPreferences sp=await SharedPreferences.getInstance();
+    sp.setBool(key, value);
   }
-
-  void wish(bool isPressed, int putout_id) {
-    if (isPressed == true) {
-      _model.insertWish(Wish(putout_id: putout_id));
-      print("찜");
-    } else {
-      if (_model.getWish(putout_id) != Null) {
-        _model.deleteWish(putout_id);
-        print("삭제");
-      }
-    }
+  
+//_isPressed의 값을 불러오기
+  void loadData() async{
+    var key='_isPressed${pk}';
+    SharedPreferences sp=await SharedPreferences.getInstance();
+    setState(() {
+      var value=sp.getBool(key);
+      print(value);
+      if(value==null)
+        _isPressed=false;
+      else
+        _isPressed=value;
+    });
   }
 
   @override
   initState() {
-    setWishButton(pk);
+    super.initState();
+    var db = _model.database;
+    loadData();
   }
 
   @override
@@ -123,7 +134,8 @@ class _DetailPage extends State<DetailPage> {
                     onPressed: () {
                       setState(() {
                         _isPressed = !_isPressed;
-                        wish(_isPressed, pk);
+                        wish(_isPressed);
+                        
                         print('favorite button is clicked');
                       });
                     },
@@ -281,8 +293,6 @@ class _DetailPage extends State<DetailPage> {
                 },
                 label: const Text('신청하기'),
               ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerFloat,
             );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');

@@ -140,8 +140,6 @@ class _MapPageState extends State<MapPage> {
               ''',
                       onTapMarker: (message) async {
                         int index = int.parse(message.message);
-                        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        //     content: Text(buildingArray[index].id.toString())));
                         Get.to(() => DetailPage(),
                             arguments: buildingArray[index].id);
                         //await _openKakaoMapScreen(context);

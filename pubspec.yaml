@@ -34,7 +34,7 @@ dependencies:
   path: ^1.8.0 # 내부 저장소 관련 패키지
   google_fonts: ^2.0.0
   intl: ^0.17.0
-  kakaomap_webview: ^0.5.0
+  kakaomap_webview: ^0.5.1
   flutter_web_auth: ^0.4.1
   uuid: ^3.0.6
   firebase_auth: ^3.3.11
@@ -51,6 +51,7 @@ dependencies:
   firebase_database_web: ^0.2.0+10
   sqflite:
   flutter_google_street_view: ^2.2.7
+  shared_preferences: ^2.0.13
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

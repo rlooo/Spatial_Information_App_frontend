@@ -7,6 +7,6 @@ class Wish {
 
   // 내부 디비용(sqlite)
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{'no': no, 'putout_id': putout_id};
+    return <String, dynamic>{'no': this.no, 'putout_id': this.putout_id};
   }
 }

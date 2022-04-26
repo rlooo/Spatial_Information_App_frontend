@@ -8,8 +8,6 @@ import 'package:flutter_application/providers/putOutBoardProvider.dart';
 import 'package:flutter_application/src/databaseApp.dart';
 import 'package:flutter_application/sub/detailPage.dart';
 import 'package:flutter_application/sub/home.dart';
-import 'package:flutter_application/sub/login.dart';
-import 'package:flutter_application/sub/logout.dart';
 import 'package:flutter_application/sub/lookFor.dart';
 import 'package:flutter_application/sub/mapPage.dart';
 import 'package:flutter_application/sub/putOut1.dart';

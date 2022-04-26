@@ -37,6 +37,10 @@ class _WishApp extends State<WishApp> {
             )
           ],
         ),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(0.5),
+          child: Divider(thickness: 0.5, height: 0.5, color: Colors.grey),
+        ),
         // bottom: TabBar(
         //   tabs: <Widget>[
         //     Tab(

@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 
 import 'imageUpload.dart';
 import 'kakaoLogin.dart';
-import 'login.dart';
 
 class ViewMoreApp extends StatelessWidget {
   @override
