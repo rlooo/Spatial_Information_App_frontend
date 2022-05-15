@@ -13,6 +13,7 @@ import 'detailPage.dart';
 import 'lookFor.dart';
 
 const String kakaoMapKey = '914bf746372c7d98a25dc1582feaabd0';
+List<PutOutBoard> buildingArray = [];
 
 Future<List<PutOutBoard>?> fetchPutOutBoard() async {
   final response = await http.get(Uri.parse('http://10.0.2.2:8000/board/list'));
@@ -57,13 +58,6 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   var _mapController;
-  List<PutOutBoard> buildingArray = [];
-
-  @override
-  initState() {
-    super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _updateData());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,13 +71,13 @@ class _MapPageState extends State<MapPage> {
         ) {
           if (snapshot.hasData) {
             buildingArray = snapshot.data;
-            WidgetsBinding.instance!.addPostFrameCallback((_) => _updateData());
+
             return Scaffold(
               appBar: AppBar(
                 title: Row(
                   children: [
                     const Text(
-                      '공간구하기',
+                      '공간 신청하기',
                       style: TextStyle(color: Colors.black),
                     ),
                     const SizedBox(width: 4.0),
@@ -104,7 +98,7 @@ class _MapPageState extends State<MapPage> {
                 children: [
                   KakaoMapView(
                       width: size.width,
-                      height: 500,
+                      height: 600,
                       kakaoMapKey: kakaoMapKey,
                       lat: 37.5968892270727,
                       lng: 127.07535510578,
@@ -131,40 +125,24 @@ class _MapPageState extends State<MapPage> {
       
       addMarker(new kakao.maps.LatLng(latitude, longitude));
       
-    
       kakao.maps.event.addListener(markers[index], 'click', (function(i) {
         return function(){
           onTapMarker.postMessage(i);
         };
       })(index));
-    
     }
-    
+      ${_test()}
 		  var zoomControl = new kakao.maps.ZoomControl();
       map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
    
       var mapTypeControl = new kakao.maps.MapTypeControl();
       map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+      
               ''',
                       onTapMarker: (message) async {
                         int index = int.parse(message.message);
                         Get.to(() => DetailPage(),
                             arguments: buildingArray[index].id);
-                        //await _openKakaoMapScreen(context);
-                      }),
-                  ElevatedButton(
-                      child: Text(
-                        '지도에 마커표시하기',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
-                      onPressed: () {
-                        for (int i = 0; i < buildingArray.length; i++) {
-                          _mapController!.evaluateJavascript(
-                              "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, ${i})");
-                        }
                       }),
                 ],
               ),
@@ -176,10 +154,13 @@ class _MapPageState extends State<MapPage> {
         });
   }
 
-  void _updateData() {
+  String _test() {
+    String displayMarker = '';
     for (int i = 0; i < buildingArray.length; i++) {
-      _mapController!.evaluateJavascript(
-          "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, ${i})");
+      displayMarker +=
+          "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, $i)\n";
     }
+
+    return displayMarker;
   }
 }
