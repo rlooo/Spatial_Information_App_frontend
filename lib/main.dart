@@ -81,23 +81,27 @@ class _MyHomePageState extends State<MyHomePage>
         controller: controller,
       ),
       bottomNavigationBar: TabBar(
+        indicatorColor: Colors.red,
+        labelColor: Colors.red,
+        unselectedLabelColor: Colors.black,
         tabs: const <Tab>[
           Tab(
             icon: Icon(
               Icons.grid_view,
-              color: Colors.black,
             ),
+            text: '홈',
           ),
           Tab(
-              icon: Icon(
-            Icons.favorite_border,
-            color: Colors.black,
-          )),
+            icon: Icon(
+              Icons.favorite_border,
+            ),
+            text: '찜',
+          ),
           Tab(
             icon: Icon(
               Icons.more_horiz,
-              color: Colors.black,
             ),
+            text: '더보기',
           )
         ],
         controller: controller,

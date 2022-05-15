@@ -60,8 +60,15 @@ class _MapPageState extends State<MapPage> {
   List<PutOutBoard> buildingArray = [];
 
   @override
+  initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _updateData());
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return FutureBuilder(
         future: fetchPutOutBoard(),
         builder: (
@@ -70,6 +77,7 @@ class _MapPageState extends State<MapPage> {
         ) {
           if (snapshot.hasData) {
             buildingArray = snapshot.data;
+            WidgetsBinding.instance!.addPostFrameCallback((_) => _updateData());
             return Scaffold(
               appBar: AppBar(
                 title: Row(
@@ -166,5 +174,12 @@ class _MapPageState extends State<MapPage> {
           }
           return CircularProgressIndicator();
         });
+  }
+
+  void _updateData() {
+    for (int i = 0; i < buildingArray.length; i++) {
+      _mapController!.evaluateJavascript(
+          "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, ${i})");
+    }
   }
 }

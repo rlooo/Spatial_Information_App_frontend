@@ -60,17 +60,17 @@ class _ApplySpacePage extends State<ApplySpacePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    '\n공간나눔사업중개',
+                    '\n공간신청하기',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Colors.blue),
+                        color: Colors.black),
                   ),
                   Text(
                     '내 공간을 구하고 싶으신 분',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    style: TextStyle(fontSize: 15),
                   ),
                   SizedBox(
                     height: 20.0,
@@ -94,6 +94,8 @@ class _ApplySpacePage extends State<ApplySpacePage> {
                     children: <Widget>[
                       Checkbox(
                           value: _isChecked1,
+                          activeColor: Colors.white,
+                          checkColor: Colors.red,
                           onChanged: (value) {
                             setState(() {
                               _isChecked1 = value!;
@@ -108,6 +110,8 @@ class _ApplySpacePage extends State<ApplySpacePage> {
                     children: <Widget>[
                       Checkbox(
                           value: _isChecked2,
+                          activeColor: Colors.white,
+                          checkColor: Colors.red,
                           onChanged: (value) {
                             setState(() {
                               _isChecked2 = value!;
@@ -221,6 +225,8 @@ class _NextApplySpacePage extends State<NextApplySpacePage> {
                 children: <Widget>[
                   Checkbox(
                       value: _isChecked,
+                      activeColor: Colors.white,
+                      checkColor: Colors.red,
                       onChanged: (value) {
                         setState(() {
                           _isChecked = value!;

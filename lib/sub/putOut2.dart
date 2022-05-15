@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/sub/addressPage.dart';
 import 'package:flutter_application/sub/home.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -51,6 +50,7 @@ class _putOutPage2 extends State<putOutPage2> {
   String kakaoLatitude = '-';
   String kakaoLongitude = '-';
   String addressName = '';
+  final _detailAddress = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -95,68 +95,56 @@ class _putOutPage2 extends State<putOutPage2> {
                 funValidator: validateContent(),
                 keyboardType: TextInputType.number,
               ),
-              Container(
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextButton(
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => KpostalView(
-                              useLocalServer: true,
-                              localPort: 8080,
-                              kakaoKey: '914bf746372c7d98a25dc1582feaabd0',
-                              callback: (Kpostal result) {
-                                print(result);
-                                setState(() {
-                                  postCode = result.postCode;
-                                  address = result.address;
-                                  latitude = result.latitude.toString();
-                                  longitude = result.longitude.toString();
-                                  kakaoLatitude =
-                                      result.kakaoLatitude.toString();
-                                  kakaoLongitude =
-                                      result.kakaoLongitude.toString();
-                                });
-                              },
-                            ),
+              const SizedBox(height: 4.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  TextButton(
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => KpostalView(
+                            useLocalServer: true,
+                            localPort: 8080,
+                            kakaoKey: '914bf746372c7d98a25dc1582feaabd0',
+                            callback: (Kpostal result) {
+                              setState(() {
+                                postCode = result.postCode;
+                                address = result.address;
+                                latitude = result.latitude.toString();
+                                longitude = result.longitude.toString();
+                                kakaoLatitude = result.kakaoLatitude.toString();
+                                kakaoLongitude =
+                                    result.kakaoLongitude.toString();
+                              });
+                            },
                           ),
-                        );
-                      },
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.blue)),
-                      child: Text(
-                        '주소검색',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                        ),
+                      );
+                    },
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.blue)),
+                    child: Text(
+                      '주소검색',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(40.0),
-                      child: Column(
-                        children: [
-                          Text('postCode',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text('result: ${postCode}'),
-                          Text('address',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text('result: ${address}'),
-                          Text('LatLng',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(
-                              'latitude: ${latitude} / longitude: ${longitude}'),
-                          Text('through KAKAO Geocoder',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(
-                              'latitude: ${kakaoLatitude} / longitude: ${kakaoLongitude}'),
-                        ],
-                      ),
+                  ),
+                  Text(
+                    '${address}',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                      decoration: TextDecoration.underline,
                     ),
-                  ],
-                ),
+                  )
+                ],
+              ),
+              CustomTextFormField(
+                controller: _detailAddress,
+                hint: "상세주소",
+                funValidator: validateContent(),
               ),
               Text(
                 '※ 상가, 점포가 2개 이상일 경우, 대표 상가, 점포 1개만 입력',
@@ -190,6 +178,8 @@ class _putOutPage2 extends State<putOutPage2> {
                 children: <Widget>[
                   Checkbox(
                       value: _isChecked,
+                      activeColor: Colors.white,
+                      checkColor: Colors.red,
                       onChanged: (value) {
                         setState(() {
                           _isChecked = value!;
@@ -510,7 +500,7 @@ class _putOutPage2 extends State<putOutPage2> {
                     if (_formKey.currentState!.validate()) {
                       savePutOut();
                       flutterToast();
-                      Get.offAll(() => HomeApp());
+                      Get.back();
                     }
                   }),
             ],
@@ -551,13 +541,11 @@ class _putOutPage2 extends State<putOutPage2> {
         'range': range.toString(),
         'facilities': facilities_result.toString(),
         'images': imagePath.toString(),
-        'postCode': postCode,
         'address': address,
-        'latitude': latitude,
-        'longitude': longitude,
         'kakaoLatitude': kakaoLatitude,
         'kakaoLongitude': kakaoLongitude,
         'addressName': addressName,
+        'datailAddress': _detailAddress.text,
       },
     );
   }

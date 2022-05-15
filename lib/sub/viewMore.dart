@@ -1,11 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/sub/introduce.dart';
 import 'package:flutter_application/sub/lookFor.dart';
 import 'package:flutter_application/sub/putOut1.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 import 'imageUpload.dart';
 import 'kakaoLogin.dart';
+
+void logout() async {
+  try {
+    await UserApi.instance.logout();
+    print('로그아웃 성공, SDK에서 토큰 삭제');
+  } catch (error) {
+    print('로그아웃 실패, SDK에서 토큰 삭제 $error');
+  }
+}
 
 class ViewMoreApp extends StatelessWidget {
   @override
@@ -36,20 +48,21 @@ class ViewMoreApp extends StatelessWidget {
             ListTile(
               title: Text('로그인/회원가입'),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => KakaoLoginApp()));
+                Get.to(() => KakaoLoginApp());
               },
             ),
             ListTile(
               title: Text('사업소개'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => IntroducePage());
+              },
             ),
             ListTile(
               title: Text('공지사항'),
               onTap: () {},
             ),
             ListTile(
-              title: Text('공간구해요'),
+              title: Text('공간 구해요'),
               onTap: () {
                 Get.to(() => LookForPage());
               },
@@ -64,8 +77,26 @@ class ViewMoreApp extends StatelessWidget {
               title: Text('Q&A'),
               onTap: () {},
             ),
+            ListTile(
+              title: Text('로그아웃'),
+              onTap: () {
+                logout();
+                LogoutToast();
+              },
+            ),
             // ElevatedButton(child: Text('고객센터'), onPressed: () async {})
           ],
         ));
+  }
+
+  void LogoutToast() {
+    Fluttertoast.showToast(
+        msg: "로그아웃되었습니다.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.blue,
+        textColor: Colors.white,
+        fontSize: 15.0);
   }
 }

@@ -39,7 +39,7 @@ class DetailPage extends StatefulWidget {
 class _DetailPage extends State<DetailPage> {
   var pk = Get.arguments;
 
-  bool _isPressed=false;
+  bool _isPressed = false;
   final _model = DatabaseApp(); //데이터베이스
   var _mapController;
 
@@ -56,32 +56,43 @@ class _DetailPage extends State<DetailPage> {
   var latitude;
   var longitude;
 
-  
+  var platArea; //대지면적
+  var archArea; //건축면적
+  var bcRat; //건폐율
+  var vlRat; //용적률
+  var grndFlrCnt; //지상층수
+  var ugrndFlrCnt; //지하층수
+  var mainPurpsCdNm; //주용도
+  var etcPurps; //기타용도
+  var strctCdNm; //구조
+  var totPkngCnt; //총주차수
 
-Future<void> wish(bool _isPressed) async{
-  if(_isPressed==true){
-    await _model.insertWish(Wish(putout_id:pk));}
-  else {await _model.deleteWish(pk);}
-}
+  Future<void> wish(bool _isPressed) async {
+    if (_isPressed == true) {
+      await _model.insertWish(Wish(putout_id: pk));
+    } else {
+      await _model.deleteWish(pk);
+    }
+  }
 
   //_isPressed의 값을 저장하기
-  void setData(bool value) async{
-    var key='_isPressed${pk}';
-    SharedPreferences sp=await SharedPreferences.getInstance();
+  void setData(bool value) async {
+    var key = '_isPressed${pk}';
+    SharedPreferences sp = await SharedPreferences.getInstance();
     sp.setBool(key, value);
   }
-  
+
 //_isPressed의 값을 불러오기
-  void loadData() async{
-    var key='_isPressed${pk}';
-    SharedPreferences sp=await SharedPreferences.getInstance();
+  void loadData() async {
+    var key = '_isPressed${pk}';
+    SharedPreferences sp = await SharedPreferences.getInstance();
     setState(() {
-      var value=sp.getBool(key);
+      var value = sp.getBool(key);
       print(value);
-      if(value==null)
-        _isPressed=false;
+      if (value == null)
+        _isPressed = false;
       else
-        _isPressed=value;
+        _isPressed = value;
     });
   }
 
@@ -113,6 +124,17 @@ Future<void> wish(bool _isPressed) async{
             latitude = snapshot.data!.latitude;
             longitude = snapshot.data!.longitude;
 
+            platArea = snapshot.data!.platArea.toString();
+            archArea = snapshot.data!.archArea.toString();
+            bcRat = snapshot.data!.bcRat.toString();
+            vlRat = snapshot.data!.vlRat.toString();
+            grndFlrCnt = snapshot.data!.grndFlrCnt.toString();
+            ugrndFlrCnt = snapshot.data!.ugrndFlrCnt.toString();
+            mainPurpsCdNm = snapshot.data!.mainPurpsCdNm;
+            etcPurps = snapshot.data!.etcPurps;
+            strctCdNm = snapshot.data!.strctCdNm;
+            totPkngCnt = snapshot.data!.totPkngCnt.toString();
+
             return Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: AppBar(
@@ -135,7 +157,7 @@ Future<void> wish(bool _isPressed) async{
                       setState(() {
                         _isPressed = !_isPressed;
                         wish(_isPressed);
-                        
+
                         print('favorite button is clicked');
                       });
                     },
@@ -268,6 +290,100 @@ Future<void> wish(bool _isPressed) async{
                               '건축물 정보\n',
                               style: Theme.of(context).textTheme.headline2,
                             ),
+                            Row(children: <Widget>[
+                              Text(
+                                '대지면적 ',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                platArea,
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ]),
+                            Row(children: <Widget>[
+                              Text(
+                                '건축면적 ',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                archArea,
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ]),
+                            Row(children: <Widget>[
+                              Text(
+                                '건폐율 ',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                bcRat,
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ]),
+                            Row(children: <Widget>[
+                              Text(
+                                '용적율 ',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                vlRat,
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ]),
+                            Row(children: <Widget>[
+                              Text(
+                                '층수 ',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                '지하' + ugrndFlrCnt + '층 ~ ',
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                              Text(
+                                '지상' + grndFlrCnt + '층',
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ]),
+                            Row(children: <Widget>[
+                              Text(
+                                '주용도 ',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                mainPurpsCdNm,
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ]),
+                            Row(children: <Widget>[
+                              Text(
+                                '기타용도 ',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                etcPurps,
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ]),
+                            Row(children: <Widget>[
+                              Text(
+                                '구조 ',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                strctCdNm,
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ]),
+                            Row(children: <Widget>[
+                              Text(
+                                '총주차수 ',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Text(
+                                totPkngCnt,
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ]),
                           ],
                         ),
                       ),
@@ -281,13 +397,15 @@ Future<void> wish(bool _isPressed) async{
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.white)),
                           onPressed: () {
-                            Get.to(() => StreetViewPanoramaInitDemo(), arguments: [latitude, longitude]);
+                            Get.to(() => StreetViewPanoramaInitDemo(),
+                                arguments: [latitude, longitude]);
                           }),
                     ],
                   ),
                 ),
               ),
               floatingActionButton: FloatingActionButton.extended(
+                backgroundColor: Colors.red,
                 onPressed: () {
                   Get.to(() => ApplySpacePage(), arguments: [id, address]);
                 },

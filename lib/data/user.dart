@@ -1,15 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
 
-class User {
-  String? login_id;
+class UserInfo {
+  dynamic uid;
   String? email;
   String? nickname;
-  String? access_token;
-  String? refresh_token;
-  String? createTime;
 
-  User(this.login_id, this.email, this.nickname, this.access_token,
-      this.refresh_token, this.createTime);
+  UserInfo(this.uid, this.email, this.nickname);
 
   // User.fromSnapshot(DataSnapshot snapshot)
   //     : login_id = snapshot.value['login_id'],
@@ -21,23 +17,17 @@ class User {
 
   toJson() {
     return {
-      'login_id': login_id,
+      'uid': uid,
       'email': email,
       'nickname': nickname,
-      'access_token': access_token,
-      'refresh_token': refresh_token,
-      'createTime': createTime,
     };
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'login_id': login_id,
+      'uid': uid,
       'email': email,
       'nickname': nickname,
-      'access_token': access_token,
-      'refresh_token': refresh_token,
-      'createTime': createTime,
     };
   }
 }

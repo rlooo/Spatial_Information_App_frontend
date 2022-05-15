@@ -52,17 +52,17 @@ class _putOutPage1 extends State<putOutPage1> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    '\n공간나눔사업중개',
+                    '\n공간나누기',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Colors.blue),
+                        color: Colors.black),
                   ),
                   Text(
                     '내 공간을 내놓고 싶으신 분',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    style: TextStyle(fontSize: 15),
                   ),
                   SizedBox(
                     height: 20.0,
@@ -86,6 +86,8 @@ class _putOutPage1 extends State<putOutPage1> {
                     children: <Widget>[
                       Checkbox(
                           value: _isChecked1,
+                          activeColor: Colors.white,
+                          checkColor: Colors.red,
                           onChanged: (value) {
                             setState(() {
                               _isChecked1 = value!;
@@ -100,6 +102,8 @@ class _putOutPage1 extends State<putOutPage1> {
                     children: <Widget>[
                       Checkbox(
                           value: _isChecked2,
+                          activeColor: Colors.white,
+                          checkColor: Colors.red,
                           onChanged: (value) {
                             setState(() {
                               _isChecked2 = value!;

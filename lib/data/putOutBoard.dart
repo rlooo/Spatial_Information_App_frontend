@@ -21,26 +21,48 @@ class PutOutBoard {
   var address;
   var created_at;
 
-  PutOutBoard(
-      {this.id,
-      this.author,
-      this.name,
-      this.contact,
-      this.area,
-      this.floor,
-      this.deposit,
-      this.price,
-      this.discussion,
-      this.client,
-      this.sort,
-      this.count,
-      this.range,
-      this.facility,
-      this.images,
-      this.latitude,
-      this.longitude,
-      this.address,
-      this.created_at});
+  var platArea; //대지면적
+  var archArea; //건축면적
+  var bcRat; //건폐율
+  var vlRat; //용적률
+  var grndFlrCnt; //지상층수
+  var ugrndFlrCnt; //지하층수
+  var mainPurpsCdNm; //주용도
+  var etcPurps; //기타용도
+  var strctCdNm; //구조
+  var totPkngCnt; //총주차수
+
+  PutOutBoard({
+    this.id,
+    this.author,
+    this.name,
+    this.contact,
+    this.area,
+    this.floor,
+    this.deposit,
+    this.price,
+    this.discussion,
+    this.client,
+    this.sort,
+    this.count,
+    this.range,
+    this.facility,
+    this.images,
+    this.latitude,
+    this.longitude,
+    this.address,
+    this.created_at,
+    this.platArea, //대지면적
+    this.archArea, //건축면적
+    this.bcRat, //건폐율
+    this.vlRat, //용적률
+    this.grndFlrCnt, //지상층수
+    this.ugrndFlrCnt, //지하층수
+    this.mainPurpsCdNm, //주용도
+    this.etcPurps, //기타용도
+    this.strctCdNm, //구조
+    this.totPkngCnt, //총주차수
+  });
 
   factory PutOutBoard.fromJson(Map<String, dynamic> json) {
     return PutOutBoard(
@@ -63,6 +85,16 @@ class PutOutBoard {
       longitude: json['kakaoLongitude'],
       address: json['address'],
       created_at: json['created_at'],
+      platArea: json['platArea'],
+      archArea: json['archArea'],
+      bcRat: json['bcRat'],
+      vlRat: json['vlRat'],
+      grndFlrCnt: json['grndFlrCnt'],
+      ugrndFlrCnt: json['ugrndFlrCnt'],
+      mainPurpsCdNm: json['mainPurpsCdNm'],
+      etcPurps: json['etcPurps'],
+      strctCdNm: json['strctCdNm'],
+      totPkngCnt: json['totPkngCnt'],
     );
   }
 
@@ -86,6 +118,16 @@ class PutOutBoard {
         'longitude': longitude,
         'address': address,
         'created_at': created_at,
+        'platArea': platArea,
+        'archArea': archArea,
+        'bcRat': bcRat,
+        'vlRat': vlRat,
+        'grndFlrCnt': grndFlrCnt,
+        'ugrndFlrCnt': ugrndFlrCnt,
+        'mainPurpsCdNm': mainPurpsCdNm,
+        'etcPurps': etcPurps,
+        'strctCdNm': strctCdNm,
+        'totPkngCnt': totPkngCnt,
       };
 
   Map<String, dynamic> toMap() {
@@ -109,6 +151,16 @@ class PutOutBoard {
       'longitude': longitude,
       'address': address,
       'created_at': created_at,
+      'platArea': platArea,
+      'archArea': archArea,
+      'bcRat': bcRat,
+      'vlRat': vlRat,
+      'grndFlrCnt': grndFlrCnt,
+      'ugrndFlrCnt': ugrndFlrCnt,
+      'mainPurpsCdNm': mainPurpsCdNm,
+      'etcPurps': etcPurps,
+      'strctCdNm': strctCdNm,
+      'totPkngCnt': totPkngCnt,
     };
   }
 }
