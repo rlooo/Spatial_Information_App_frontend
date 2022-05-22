@@ -80,31 +80,34 @@ class _MyHomePageState extends State<MyHomePage>
         ],
         controller: controller,
       ),
-      bottomNavigationBar: TabBar(
-        indicatorColor: Colors.red,
-        labelColor: Colors.red,
-        unselectedLabelColor: Colors.black,
-        tabs: const <Tab>[
-          Tab(
-            icon: Icon(
-              Icons.grid_view,
+      bottomNavigationBar: Container(
+        color: Color(0xff662D91),
+        child: TabBar(
+          indicatorColor: Colors.white,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white,
+          tabs: const <Tab>[
+            Tab(
+              icon: Icon(
+                Icons.grid_view,
+              ),
+              text: '홈',
             ),
-            text: '홈',
-          ),
-          Tab(
-            icon: Icon(
-              Icons.favorite_border,
+            Tab(
+              icon: Icon(
+                Icons.favorite_border,
+              ),
+              text: '찜',
             ),
-            text: '찜',
-          ),
-          Tab(
-            icon: Icon(
-              Icons.more_horiz,
-            ),
-            text: '더보기',
-          )
-        ],
-        controller: controller,
+            Tab(
+              icon: Icon(
+                Icons.more_horiz,
+              ),
+              text: '더보기',
+            )
+          ],
+          controller: controller,
+        ),
       ),
     );
   }
