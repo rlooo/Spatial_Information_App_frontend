@@ -30,12 +30,12 @@ dependencies:
   flutter:
     sdk: flutter
   validators: ^3.0.0 # 유효성 검사
-  get:
+  get: ^4.6.5 # 4.6.2
   path: ^1.8.0 # 내부 저장소 관련 패키지
   google_fonts: ^2.0.0
   intl: ^0.17.0
   kakaomap_webview: ^0.6.0
-  flutter_web_auth: ^0.4.1
+  flutter_web_auth: ^0.4.1  
   uuid: ^3.0.6
   firebase_auth: ^3.3.11
   firebase_core: ^1.13.15
@@ -47,10 +47,10 @@ dependencies:
   kpostal: ^0.4.2
   provider: ^6.0.2
   flutter_secure_storage: ^5.0.2
-  kakao_flutter_sdk: ^1.1.0
+  kakao_flutter_sdk: ^1.1.1 #1.1.0
   firebase_database_web: ^0.2.0+10
   sqflite:
-  flutter_google_street_view: ^2.2.7
+  flutter_google_street_view: ^2.2.8 #2.2.7
   shared_preferences: ^2.0.13
 
   # The following adds the Cupertino Icons font to your application.
