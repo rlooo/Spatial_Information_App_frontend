@@ -81,11 +81,15 @@ class _MyHomePageState extends State<MyHomePage>
         controller: controller,
       ),
       bottomNavigationBar: Container(
-        color: Color(0xff662D91),
+        // color: Color(0xff662D91),
+        color: Colors.white,
         child: TabBar(
-          indicatorColor: Colors.white,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white,
+          // indicatorColor: Colors.white,
+          // labelColor: Colors.white,
+          // unselectedLabelColor: Colors.white,
+          indicatorColor: Color(0xff662D91),
+          labelColor: Color(0xff662D91),
+          unselectedLabelColor: Colors.grey,
           tabs: const <Tab>[
             Tab(
               icon: Icon(

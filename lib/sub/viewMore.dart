@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/sub/QnA.dart';
 import 'package:flutter_application/sub/introduce.dart';
 import 'package:flutter_application/sub/lookFor.dart';
 import 'package:flutter_application/sub/putOut1.dart';
@@ -9,6 +10,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 import 'imageUpload.dart';
 import 'kakaoLogin.dart';
+import 'notice.dart';
 
 void logout() async {
   try {
@@ -59,7 +61,9 @@ class ViewMoreApp extends StatelessWidget {
             ),
             ListTile(
               title: Text('공지사항'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => NoticePage());
+              },
             ),
             ListTile(
               title: Text('공간 구해요'),
@@ -75,7 +79,9 @@ class ViewMoreApp extends StatelessWidget {
             ),
             ListTile(
               title: Text('Q&A'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => QnAPage());
+              },
             ),
             ListTile(
               title: Text('로그아웃'),

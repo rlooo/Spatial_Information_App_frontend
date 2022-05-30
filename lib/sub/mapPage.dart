@@ -6,11 +6,9 @@ import 'package:get/get.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:sqflite/sqflite.dart';
 
 import '../data/putOutBoard.dart';
 import 'detailPage.dart';
-import 'lookFor.dart';
 
 const String kakaoMapKey = '914bf746372c7d98a25dc1582feaabd0';
 List<PutOutBoard> buildingArray = [];

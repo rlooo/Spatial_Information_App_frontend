@@ -17,17 +17,21 @@ class CustomTextArea extends StatelessWidget {
         maxLines: 10,
         validator: funValidator,
         decoration: InputDecoration(
-          hintText: "Enter $hint",
+          hintText: "$hint",
           enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.circular(5),
           ),
           focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.circular(5),
           ),
           errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.circular(5),
           ),
           focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.circular(5),
           ),
         ),

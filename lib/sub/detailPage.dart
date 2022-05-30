@@ -40,7 +40,6 @@ class _DetailPage extends State<DetailPage> {
   var pk = Get.arguments;
 
   bool _isPressed = false;
-  final _model = DatabaseApp(); //데이터베이스
   var _mapController;
 
   var id;
@@ -67,45 +66,12 @@ class _DetailPage extends State<DetailPage> {
   var strctCdNm; //구조
   var totPkngCnt; //총주차수
 
-  Future<void> wish(bool _isPressed) async {
-    if (_isPressed == true) {
-      await _model.insertWish(Wish(putout_id: pk));
-    } else {
-      await _model.deleteWish(pk);
-    }
-  }
-
-  //_isPressed의 값을 저장하기
-  void setData(bool value) async {
-    var key = '_isPressed${pk}';
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.setBool(key, value);
-  }
-
-//_isPressed의 값을 불러오기
-  void loadData() async {
-    var key = '_isPressed${pk}';
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    setState(() {
-      var value = sp.getBool(key);
-      print(value);
-      if (value == null)
-        _isPressed = false;
-      else
-        _isPressed = value;
-    });
-  }
-
-  @override
-  initState() {
-    super.initState();
-    var db = _model.database;
-    loadData();
-  }
+  final Set _wish = Set();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final bool alreadySaved = _wish.contains(pk);
 
     return FutureBuilder(
         future: fetchPutOutBoard(pk),
@@ -144,21 +110,18 @@ class _DetailPage extends State<DetailPage> {
                 ),
                 actions: <Widget>[
                   IconButton(
-                    icon: _isPressed
-                        ? Icon(
-                            Icons.favorite,
-                            color: Colors.black,
-                          )
-                        : Icon(
-                            Icons.favorite_border,
-                            color: Colors.black,
-                          ),
+                    icon: Icon(
+                      // Add the lines from here...
+                      alreadySaved ? Icons.favorite : Icons.favorite_border,
+                      color: alreadySaved ? Colors.red : null,
+                    ),
                     onPressed: () {
                       setState(() {
-                        _isPressed = !_isPressed;
-                        wish(_isPressed);
-
-                        print('favorite button is clicked');
+                        if (alreadySaved) {
+                          _wish.remove(pk);
+                        } else {
+                          _wish.add(pk);
+                        }
                       });
                     },
                   ),
@@ -405,7 +368,7 @@ class _DetailPage extends State<DetailPage> {
                 ),
               ),
               floatingActionButton: FloatingActionButton.extended(
-                backgroundColor: Colors.red,
+                backgroundColor: Color(0xff662D91),
                 onPressed: () {
                   Get.to(() => ApplySpacePage(), arguments: [id, address]);
                 },

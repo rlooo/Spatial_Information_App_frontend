@@ -35,7 +35,7 @@ class IntroducePage extends StatelessWidget {
               height: 350,
               margin: EdgeInsets.only(top: 20.0),
               decoration: BoxDecoration(
-                color: Colors.indigo,
+                color: Color(0xff662D91),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +67,7 @@ class IntroducePage extends StatelessWidget {
                       ),
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.indigo),
+                            MaterialStateProperty.all(Color(0xff662D91)),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
