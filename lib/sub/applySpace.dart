@@ -4,9 +4,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../components/custom_elecated_button.dart';
-import '../components/custom_text_form_field.dart';
 import '../main.dart';
+import '../src/components/custom_elecated_button.dart';
+import '../src/components/custom_text_form_field.dart';
 import '../util/validator_util.dart';
 
 import 'package:http/http.dart' as http;

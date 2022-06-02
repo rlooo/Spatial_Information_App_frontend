@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/src/components/custom_elecated_button.dart';
 import 'package:flutter_application/sub/putOut2.dart';
-
-import '../components/custom_elecated_button.dart';
 
 class putOutPage1 extends StatefulWidget {
   @override

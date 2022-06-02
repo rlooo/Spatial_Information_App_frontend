@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/sub/mapPage.dart';
+import 'package:flutter_application/sub/putOut1.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:path/path.dart';
 
-import 'package:provider/provider.dart';
-import 'package:flutter_application/providers/putOutBoardProvider.dart';
 import 'package:flutter_application/src/databaseApp.dart';
-import 'package:flutter_application/sub/detailPage.dart';
 import 'package:flutter_application/sub/home.dart';
-import 'package:flutter_application/sub/lookFor.dart';
-import 'package:flutter_application/sub/mapPage.dart';
-import 'package:flutter_application/sub/putOut1.dart';
-import 'package:flutter_application/sub/putOut2.dart';
 import 'package:flutter_application/sub/viewMore.dart';
-import 'package:flutter_application/sub/wish.dart';
+import 'package:flutter_application/sub/favoritePage.dart';
 import 'package:flutter_application/theme.dart';
-
-import 'package:sqflite/sqflite.dart';
 
 void main() {
   KakaoSdk.init(nativeAppKey: '9e4958a9e80e2426594954ea61c9c95b');
@@ -30,12 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: theme(),
-      home: MultiProvider(providers: [
-        ChangeNotifierProvider(
-          create: (BuildContext context) => PutOutBoardProvider(),
-        )
-      ], child: DatabaseApp()), //파이어베이스
-      // home: DatabaseApp(),
+      home: DatabaseApp(), //파이어베이스
     );
   }
 }
@@ -65,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 3, vsync: this);
+    controller = TabController(length: 5, vsync: this);
   }
 
   @override
@@ -74,8 +62,9 @@ class _MyHomePageState extends State<MyHomePage>
       body: TabBarView(
         children: <Widget>[
           HomeApp(),
-          WishApp(//수정
-              ),
+          putOutPage1(),
+          MapPage(),
+          FavoritePage(),
           ViewMoreApp()
         ],
         controller: controller,
@@ -96,6 +85,18 @@ class _MyHomePageState extends State<MyHomePage>
                 Icons.grid_view,
               ),
               text: '홈',
+            ),
+            Tab(
+              icon: Icon(
+                Icons.real_estate_agent,
+              ),
+              text: '나누기',
+            ),
+            Tab(
+              icon: Icon(
+                Icons.place,
+              ),
+              text: '신청하기',
             ),
             Tab(
               icon: Icon(

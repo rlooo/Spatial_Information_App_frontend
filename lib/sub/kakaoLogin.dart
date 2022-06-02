@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application/main.dart';
+import 'package:flutter_application/src/controller/token_controller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../data/user.dart';
+import '../src/controller/user_controller.dart';
 import 'home.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -17,7 +20,8 @@ class KakaoLoginApp extends StatefulWidget {
 }
 
 class _KakaoLoginApp extends State<KakaoLoginApp> {
-  late UserInfo userinfo;
+  final TokenController tokenController = Get.put(TokenController());
+  final UserController userController = Get.put(UserController());
 
   void _get_user_info() async {
     try {
@@ -27,16 +31,9 @@ class _KakaoLoginApp extends State<KakaoLoginApp> {
           '\n회원번호: ${user.id}'
           '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
           '\n이메일: ${user.kakaoAccount?.email}');
-
-      userinfo.uid = user.id;
-
-      if (user.kakaoAccount?.email != null) {
-        userinfo.email = user.kakaoAccount?.email;
-      }
-
-      if (user.kakaoAccount?.profile?.nickname != null) {
-        userinfo.nickname = user.kakaoAccount?.profile?.nickname;
-      }
+      userController.updateUserInfo(user.id.toString(),
+          user.kakaoAccount?.profile?.nickname, user.kakaoAccount?.email);
+      saveUser();
     } catch (error) {
       print('사용자 정보 요청 실패 $error');
     }
@@ -46,6 +43,7 @@ class _KakaoLoginApp extends State<KakaoLoginApp> {
     try {
       await UserApi.instance.logout();
       print('로그아웃 성공, SDK에서 토큰 삭제');
+      tokenController.updateToken(false);
     } catch (error) {
       print('로그아웃 실패, SDK에서 토큰 삭제 $error');
     }
@@ -55,6 +53,7 @@ class _KakaoLoginApp extends State<KakaoLoginApp> {
     try {
       await UserApi.instance.unlink();
       print('연결 끊기 성공, SDK에서 토큰 삭제');
+      tokenController.updateToken(false);
     } catch (error) {
       print('연결 끊기 실패 $error');
     }
@@ -111,21 +110,27 @@ class _KakaoLoginApp extends State<KakaoLoginApp> {
                               await UserApi.instance.accessTokenInfo();
                           print(
                               '토큰 유효성 체크 성공 ${tokenInfo.id} ${tokenInfo.expiresIn}');
+                          tokenController.updateToken(true);
                         } catch (error) {
                           if (error is KakaoException &&
                               error.isInvalidTokenError()) {
                             print('토큰 만료 $error');
+                            tokenController.updateToken(false);
                           } else {
                             print('토큰 정보 조회 실패 $error');
+                            tokenController.updateToken(false);
                           }
                           try {
                             //카카오 계정으로 로그인
                             OAuthToken token =
                                 await UserApi.instance.loginWithKakaoAccount();
                             print('로그인 성공 ${token.accessToken}');
+                            tokenController.updateToken(true);
                             _get_user_info();
+                            Get.offAll(() => MyHomePage());
                           } catch (error) {
                             print('로그인 실패 $error');
+                            tokenController.updateToken(false);
                           }
                         }
                       } else {
@@ -135,10 +140,12 @@ class _KakaoLoginApp extends State<KakaoLoginApp> {
                           try {
                             await UserApi.instance.loginWithKakaoTalk();
                             print('카카오톡으로 로그인 성공');
-                            Get.back();
+                            tokenController.updateToken(true);
                             _get_user_info();
+                            Get.offAll(() => MyHomePage());
                           } catch (error) {
                             print('카카오톡으로 로그인 실패 $error');
+                            tokenController.updateToken(false);
 
                             // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
                             // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
@@ -150,20 +157,24 @@ class _KakaoLoginApp extends State<KakaoLoginApp> {
                             try {
                               await UserApi.instance.loginWithKakaoAccount();
                               print('카카오계정으로 로그인 성공');
+                              tokenController.updateToken(true);
                               _get_user_info();
-                              Get.back();
+                              Get.offAll(() => MyHomePage());
                             } catch (error) {
                               print('카카오계정으로 로그인 실패 $error');
+                              tokenController.updateToken(false);
                             }
                           }
                         } else {
                           try {
                             await UserApi.instance.loginWithKakaoAccount();
                             print('카카오계정으로 로그인 성공');
+                            tokenController.updateToken(true);
                             _get_user_info();
-                            Get.back();
+                            Get.offAll(() => MyHomePage());
                           } catch (error) {
                             print('카카오계정으로 로그인 실패 $error');
+                            tokenController.updateToken(false);
                           }
                         }
                       }
@@ -183,9 +194,9 @@ class _KakaoLoginApp extends State<KakaoLoginApp> {
             'application/x-www-form-urlencoded', //'application/x-www-form-urlencoded',
       },
       body: <String, String?>{
-        'uid': user.id.toString(),
-        'email': userinfo.email,
-        'nickname': userinfo.nickname,
+        'uid': userController.uid.value,
+        'email': userController.email?.value,
+        'nickname': userController.nickname?.value,
       },
     );
   }

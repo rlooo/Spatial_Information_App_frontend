@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/src/controller/token_controller.dart';
 import 'package:flutter_application/sub/QnA.dart';
 import 'package:flutter_application/sub/introduce.dart';
 import 'package:flutter_application/sub/lookFor.dart';
@@ -12,16 +13,19 @@ import 'imageUpload.dart';
 import 'kakaoLogin.dart';
 import 'notice.dart';
 
-void logout() async {
-  try {
-    await UserApi.instance.logout();
-    print('로그아웃 성공, SDK에서 토큰 삭제');
-  } catch (error) {
-    print('로그아웃 실패, SDK에서 토큰 삭제 $error');
-  }
-}
-
 class ViewMoreApp extends StatelessWidget {
+  final TokenController tokencontroller = Get.put(TokenController());
+
+  void logout() async {
+    try {
+      await UserApi.instance.logout();
+      print('로그아웃 성공, SDK에서 토큰 삭제');
+      tokencontroller.updateToken(false);
+    } catch (error) {
+      print('로그아웃 실패, SDK에서 토큰 삭제 $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

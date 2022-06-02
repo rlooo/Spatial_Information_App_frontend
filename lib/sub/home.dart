@@ -55,14 +55,14 @@ class HomeApp extends StatelessWidget {
                 ElevatedButton(
                     child: Text(
                       '공간나눔사업이란?',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Color(0xff662D91)),
                     ),
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
                         primary: Colors.white,
-                        minimumSize: Size(250, 10),
+                        minimumSize: Size(230, 10),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 50, vertical: 20),
                         textStyle: const TextStyle(
@@ -79,54 +79,31 @@ class HomeApp extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center, // 가운데 정렬
               children: <Widget>[
-                ElevatedButton(
-                    child: Text(
-                      '공간구해요',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        primary: Colors.white,
-                        minimumSize: Size(120, 100),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 20),
-                        textStyle: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold)),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MapPage()));
-                    }),
-                SizedBox(
-                  width: 15.0,
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => putOutPage1()));
+                  },
+                  icon: Image.asset("images/공간나눠요_둥근네모.png",
+                      width: 100, height: 100),
+                  iconSize: 120,
                 ),
-                ElevatedButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '공간나눠요',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ],
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        primary: Colors.white,
-                        minimumSize: Size(120, 100),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 20),
-                        textStyle: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold)),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => putOutPage1()));
-                    }),
+                SizedBox(
+                  width: 10.0,
+                ),
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MapPage()));
+                  },
+                  icon: Image.asset("images/공간구해요_둥근네모.png",
+                      width: 100, height: 100),
+                  iconSize: 120,
+                ),
               ],
             ),
           ],

@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/src/components/custom_elecated_button.dart';
+import 'package:flutter_application/src/components/custom_text_form_field.dart';
 import 'package:flutter_application/sub/home.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:kpostal/kpostal.dart';
 import 'package:flutter_application/data/putOutBoard.dart';
 
-import '../components/custom_elecated_button.dart';
-import '../components/custom_text_form_field.dart';
 import '../main.dart';
 import '../util/validator_util.dart';
 import 'imageUpload.dart';

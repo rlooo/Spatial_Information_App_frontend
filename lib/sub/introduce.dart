@@ -127,11 +127,11 @@ class IntroducePage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        label: const Text('전화상담'),
-        icon: const Icon(Icons.support_agent),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: () {},
+      //   label: const Text('전화상담'),
+      //   icon: const Icon(Icons.support_agent),
+      // ),
     );
   }
 }

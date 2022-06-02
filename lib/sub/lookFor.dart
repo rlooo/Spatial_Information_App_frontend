@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/src/components/custom_text_form_field.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 
-import '../components/custom_elecated_button.dart';
-import '../components/custom_text_form_field.dart';
 import '../main.dart';
+import '../src/components/custom_elecated_button.dart';
 import '../util/validator_util.dart';
 
 import 'package:http/http.dart' as http;

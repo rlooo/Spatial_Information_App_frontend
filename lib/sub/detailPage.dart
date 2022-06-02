@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/data/putOutBoard.dart';
 import 'package:flutter_application/data/wish.dart';
+import 'package:flutter_application/src/controller/favorite_controller.dart';
 import 'package:flutter_application/sub/applySpace.dart';
 import 'package:flutter_application/sub/streetView.dart';
 import 'package:flutter_google_street_view/flutter_google_street_view.dart';
@@ -18,17 +19,19 @@ import '../src/databaseApp.dart';
 import 'lookFor.dart';
 
 const String kakaoMapKey = '914bf746372c7d98a25dc1582feaabd0';
-
 Future<PutOutBoard?> fetchPutOutBoard(var pk) async {
   final response =
       await http.get(Uri.parse('http://10.0.2.2:8000/board/detail/$pk'));
   if (response.statusCode == 200) {
     final boardMap = jsonDecode(utf8.decode(response.bodyBytes));
-
     return PutOutBoard.fromJson(boardMap);
   }
 
   throw Exception('데이터 수신 실패');
+}
+
+void updateFavoritePutOut(PutOutBoard putout) {
+  FavoriteController.to.updateFavorite(putout);
 }
 
 class DetailPage extends StatefulWidget {
@@ -66,17 +69,16 @@ class _DetailPage extends State<DetailPage> {
   var strctCdNm; //구조
   var totPkngCnt; //총주차수
 
-  final Set _wish = Set();
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final bool alreadySaved = _wish.contains(pk);
 
     return FutureBuilder(
         future: fetchPutOutBoard(pk),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
+            PutOutBoard putout = snapshot.data;
+
             id = snapshot.data!.id.toString();
             address = snapshot.data!.address;
             area = snapshot.data!.area.toString();
@@ -111,17 +113,12 @@ class _DetailPage extends State<DetailPage> {
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(
-                      // Add the lines from here...
-                      alreadySaved ? Icons.favorite : Icons.favorite_border,
-                      color: alreadySaved ? Colors.red : null,
+                      Icons.favorite,
+                      color: putout.isFavorite ? Colors.red : Colors.grey,
                     ),
                     onPressed: () {
                       setState(() {
-                        if (alreadySaved) {
-                          _wish.remove(pk);
-                        } else {
-                          _wish.add(pk);
-                        }
+                        updateFavoritePutOut(putout);
                       });
                     },
                   ),
