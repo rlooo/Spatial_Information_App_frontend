@@ -20,6 +20,7 @@ class PutOutBoard extends Equatable {
   var latitude;
   var longitude;
   var address;
+  var detail_address;
   var created_at;
   bool isFavorite;
 
@@ -53,6 +54,7 @@ class PutOutBoard extends Equatable {
     this.latitude,
     this.longitude,
     this.address,
+    this.detail_address,
     this.created_at,
     this.isFavorite = false,
     this.platArea, //대지면적
@@ -87,6 +89,7 @@ class PutOutBoard extends Equatable {
       latitude: json['kakaoLatitude'],
       longitude: json['kakaoLongitude'],
       address: json['address'],
+      detail_address: json['detail_address'],
       created_at: json['created_at'],
       isFavorite: json['isFavorite'] ?? false,
       platArea: json['platArea'],
@@ -121,6 +124,7 @@ class PutOutBoard extends Equatable {
         'latitude': latitude,
         'longitude': longitude,
         'address': address,
+        'detail_address': detail_address,
         'created_at': created_at,
         'platArea': platArea,
         'archArea': archArea,
@@ -154,6 +158,7 @@ class PutOutBoard extends Equatable {
       'latitude': latitude,
       'longitude': longitude,
       'address': address,
+      'detail_address': detail_address,
       'created_at': created_at,
       'platArea': platArea,
       'archArea': archArea,
@@ -188,6 +193,7 @@ class PutOutBoard extends Equatable {
         latitude,
         longitude,
         address,
+        detail_address,
         created_at,
         isFavorite,
         platArea,

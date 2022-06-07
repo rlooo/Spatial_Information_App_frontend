@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -55,7 +56,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  var _mapController;
+  late WebViewController _mapController;
 
   @override
   Widget build(BuildContext context) {
@@ -112,78 +113,53 @@ class _MapPageState extends State<MapPage> {
 .customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
 .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
               </style>''',
-//                       customOverlay: '''
-
-//                       funtion setCustomOverlay(latitude, longitude, index){
-
-//                         const content = '<div class ="label"><span class="left"></span><span class="center">카카오!</span><span class="right"></span></div>';
-
-//                         const position = new kakao.maps.LatLng(latitude, longitude);
-
-//                         const customOverlay = new kakao.maps.CustomOverlay({
-//                         map:map,
-//                         position: position,
-//                         content: content,
-//                         yAnchor: 1
-//                       });
-
-//                       customOverlay.setMap(map);
-//                       }
-
-//                       ${_test2()}
-
-//                       var zoomControl = new kakao.maps.ZoomControl();
-//                       map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-//                       var mapTypeControl = new kakao.maps.MapTypeControl();
-//                       map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-//               ''',
                       markerImageURL:
                           'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
                       customScript: '''
 
-                      var markers = [];
+                                        var markers = [];
 
-                      function addMarker(position) {
+                                        function addMarker(position) {
 
-                        var marker = new kakao.maps.Marker({position: position});
+                                          var marker = new kakao.maps.Marker({position: position});
 
-                        marker.setMap(map);
+                                          marker.setMap(map);
 
-                        markers.push(marker);
-                      }
+                                          markers.push(marker);
+                                        }
 
-                      function displayMarker(latitude, longitude, index) {
+                                        function displayMarker(latitude, longitude, index, price, deposit) {
 
-                        const content = '<div class ="label"><span class="left"></span><span class="center">카카오!</span><span class="right"></span></div>';
-                        const position = new kakao.maps.LatLng(latitude, longitude);
-          
-                        const customOverlay = new kakao.maps.CustomOverlay({
-                        map:map,
-                        position: position,
-                        content: content,
-                        yAnchor: 1
-                      });
+                                          const content = '<div class="customoverlay">' +
+                      '    <span class="title">' + price + '만원 /' + deposit + '만원'+ '</span>' +
+                      '</div>'; 
 
-                      customOverlay.setMap(map);
+                                          const position = new kakao.maps.LatLng(latitude, longitude);
 
-                        addMarker(new kakao.maps.LatLng(latitude, longitude));
+                                          const customOverlay = new kakao.maps.CustomOverlay({
+                                          map:map,
+                                          position: position,
+                                          content: content,
+                                          yAnchor: 1
+                                        });
 
-                        kakao.maps.event.addListener(markers[index], 'click', (function(i) {
-                          return function(){
-                            onTapMarker.postMessage(i);
-                          };
-                        })(index));
-                      }
-                        ${_test()}
+                                          addMarker(new kakao.maps.LatLng(latitude, longitude));
 
-                        var zoomControl = new kakao.maps.ZoomControl();
-                        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+                                          kakao.maps.event.addListener(markers[index], 'click', (function(i) {
+                                            return function(){
+                                              onTapMarker.postMessage(i);
+                                            };
+                                          })(index));
+                                        }
+                                          ${_test()}
 
-                        var mapTypeControl = new kakao.maps.MapTypeControl();
-                        map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+                                          var zoomControl = new kakao.maps.ZoomControl();
+                                          map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-                                ''',
+                                          var mapTypeControl = new kakao.maps.MapTypeControl();
+                                          map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+                                                  ''',
                       onTapMarker: (message) async {
                         int index = int.parse(message.message);
                         Get.to(() => DetailPage(),
@@ -203,19 +179,19 @@ class _MapPageState extends State<MapPage> {
     String displayMarker = '';
     for (int i = 0; i < buildingArray.length; i++) {
       displayMarker +=
-          "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, $i)\n";
+          "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, $i, ${buildingArray[i].price}, ${buildingArray[i].deposit})\n";
     }
 
     return displayMarker;
   }
 
   String _test2() {
-    String CustomOverlay = '';
+    String customOverlay = '';
     for (int i = 0; i < buildingArray.length; i++) {
-      CustomOverlay +=
+      customOverlay +=
           "setCustomOverlay(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, $i)\n";
     }
 
-    return CustomOverlay;
+    return customOverlay;
   }
 }

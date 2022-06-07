@@ -7,6 +7,7 @@ import 'package:flutter_application/src/components/custom_elecated_button.dart';
 import 'package:flutter_application/src/components/custom_text_form_field.dart';
 import 'package:flutter_application/src/components/custom_textarea.dart';
 import 'package:flutter_application/src/controller/user_controller.dart';
+import 'package:flutter_application/sub/viewMore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
@@ -27,6 +28,7 @@ Future<List<QnA>?> fetchQnA() async {
       entries.add(QnA(
         title: qna['title'],
         content: qna['content'],
+        answer: qna['answer'],
         created_at: qna['created_at'],
       ));
     }
@@ -158,7 +160,7 @@ class NewQnAPage extends StatelessWidget {
                   if (_formKey.currentState!.validate()) {
                     saveQnA();
                     flutterToast();
-                    Navigator.pop(context);
+                    Get.to(() => ViewMoreApp());
                   }
                 },
               ),

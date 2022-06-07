@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/src/components/custom_text_form_field.dart';
+import 'package:flutter_application/src/controller/user_controller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 import '../main.dart';
 import '../src/components/custom_elecated_button.dart';
@@ -143,6 +145,8 @@ class LookForPage2 extends StatefulWidget {
 }
 
 class _LookForPage2 extends State<LookForPage2> {
+  final UserController userController = Get.put(UserController());
+
   final _formKey = GlobalKey<FormState>();
 
   final _name = TextEditingController();
@@ -274,6 +278,7 @@ class _LookForPage2 extends State<LookForPage2> {
             'application/x-www-form-urlencoded', //'application/x-www-form-urlencoded',
       },
       body: <String, String>{
+        'uid': userController.uid.value,
         'name': _name.text,
         'contact': _contact.text,
         'business': _business.text,

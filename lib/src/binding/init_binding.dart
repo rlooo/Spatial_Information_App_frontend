@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter_application/src/controller/favorite_controller.dart';
 import 'package:get/get.dart';
 

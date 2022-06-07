@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/src/controller/user_controller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -146,6 +147,8 @@ class NextApplySpacePage extends StatefulWidget {
 }
 
 class _NextApplySpacePage extends State<NextApplySpacePage> {
+  final UserController userController = Get.put(UserController());
+
   var buildingId = Get.arguments[0];
   var address = Get.arguments[1];
 
@@ -265,6 +268,7 @@ class _NextApplySpacePage extends State<NextApplySpacePage> {
             'application/x-www-form-urlencoded', //'application/x-www-form-urlencoded',
       },
       body: <String, String>{
+        'uid': userController.uid.value,
         'buildingId': buildingId.toString(), //신청할 건물 id
         'name': _name.text,
         'contact': _contact.text,

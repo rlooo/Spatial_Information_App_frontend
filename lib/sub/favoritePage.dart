@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_application/data/putOutBoard.dart';
+import 'package:flutter_application/src/controller/favorite_controller.dart';
 import 'package:flutter_application/src/controller/token_controller.dart';
+import 'package:flutter_application/sub/detailPage.dart';
 import 'package:flutter_application/sub/kakaoLogin.dart';
 import 'package:get/get.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:sqflite/sqflite.dart';
 
-import 'detailPage.dart';
-
-class FavoritePage extends StatelessWidget {
+class FavoritePage extends GetView<FavoriteController> {
   final TokenController t = Get.put(TokenController());
 
   @override
@@ -38,79 +35,126 @@ class FavoritePage extends StatelessWidget {
         body: Obx(() {
           if (t.token.value) {
             print(t.token.value);
-            return Container(
-              child: Center(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Container(
-                            margin: EdgeInsets.all(10),
-                            width: 100.0,
-                            height: 100.0,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.black, width: 1),
-                                image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: AssetImage('images/kakao1.jpg')))),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            // 상세페이지 이동은 TourDetailPage를 재사용하도록 합니다
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => DetailPage()));
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  '신규입점·1층·9평',
-                                  style: Theme.of(context).textTheme.subtitle2,
-                                  textAlign: TextAlign.start,
-                                ),
-                                Text(
-                                  '서울 중랑구 중랑역로 13길 2',
-                                  style: Theme.of(context).textTheme.headline2,
-                                ),
-                                Text('근린상가·서초동·조회63',
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 10.0)),
-                                Row(children: <Widget>[
-                                  Text('       월세 ',
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 15.0)),
-                                  Text('1000만원',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15.0))
-                                ]),
-                                Row(children: <Widget>[
-                                  Text('       보증금 ',
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 15.0)),
-                                  Text('1000만원',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15.0))
-                                ]),
+            return ListView.separated(
+              itemBuilder: (BuildContext context, int index) {
+                PutOutBoard putout = controller.favoriteList[index];
+                return Card(
+                    child: Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                Container(
+                                  child: Center(
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            Container(
+                                                margin: EdgeInsets.all(10),
+                                                width: 100.0,
+                                                height: 100.0,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                        color: Colors.black,
+                                                        width: 1),
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: AssetImage(
+                                                            'images/kakao1.jpg')))),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(() => DetailPage(),
+                                                    arguments: putout.id);
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.all(5),
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Text(
+                                                      '${putout.facility}',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle2,
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                    ),
+                                                    Text(
+                                                      '${putout.address}',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline2,
+                                                    ),
+                                                    Text(
+                                                        '${putout.detail_address}',
+                                                        style: TextStyle(
+                                                            color: Colors.grey,
+                                                            fontSize: 10.0)),
+                                                    Row(children: <Widget>[
+                                                      Text('       월세 ',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize: 15.0)),
+                                                      Text(
+                                                          '${putout.price}' +
+                                                              ' 만원',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15.0))
+                                                    ]),
+                                                    Row(children: <Widget>[
+                                                      Text('       보증금 ',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize: 15.0)),
+                                                      Text(
+                                                          '${putout.deposit}' +
+                                                              ' 만원',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15.0))
+                                                    ]),
+                                                  ],
+                                                ),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    150,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ])),
+                                )
                               ],
-                            ),
-                            width: MediaQuery.of(context).size.width - 150,
-                          ),
-                        )
-                      ],
-                    ),
-                  ])),
+                            )
+                          ],
+                        )));
+              },
+              itemCount: controller.favoriteList.length,
+              separatorBuilder: (BuildContext context, int index) {
+                return Divider(
+                  thickness: 2,
+                  color: Colors.grey[400],
+                  height: 5,
+                  indent: 16,
+                  endIndent: 16,
+                );
+              },
             );
           } else {
             print(t.token.value);

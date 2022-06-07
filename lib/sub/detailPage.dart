@@ -1,22 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/data/putOutBoard.dart';
-import 'package:flutter_application/data/wish.dart';
-import 'package:flutter_application/src/controller/favorite_controller.dart';
+import 'package:flutter_application/src/controller/putout_controller.dart';
 import 'package:flutter_application/sub/applySpace.dart';
 import 'package:flutter_application/sub/streetView.dart';
-import 'package:flutter_google_street_view/flutter_google_street_view.dart';
 import 'package:get/get.dart';
-import 'package:kakaomap_webview/kakaomap_webview.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:http/http.dart' as http;
-import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../src/databaseApp.dart';
-import 'lookFor.dart';
 
 const String kakaoMapKey = '914bf746372c7d98a25dc1582feaabd0';
 Future<PutOutBoard?> fetchPutOutBoard(var pk) async {
@@ -30,44 +20,17 @@ Future<PutOutBoard?> fetchPutOutBoard(var pk) async {
   throw Exception('데이터 수신 실패');
 }
 
-void updateFavoritePutOut(PutOutBoard putout) {
-  FavoriteController.to.updateFavorite(putout);
-}
-
 class DetailPage extends StatefulWidget {
   @override
   _DetailPage createState() => _DetailPage();
 }
 
 class _DetailPage extends State<DetailPage> {
+  final PutOutController putoutController = Get.put(PutOutController());
   var pk = Get.arguments;
 
   bool _isPressed = false;
   var _mapController;
-
-  var id;
-  var address;
-  var area;
-  var floor;
-  var deposit;
-  var price;
-  var discussion;
-  var range;
-  var facility;
-  var images;
-  var latitude;
-  var longitude;
-
-  var platArea; //대지면적
-  var archArea; //건축면적
-  var bcRat; //건폐율
-  var vlRat; //용적률
-  var grndFlrCnt; //지상층수
-  var ugrndFlrCnt; //지하층수
-  var mainPurpsCdNm; //주용도
-  var etcPurps; //기타용도
-  var strctCdNm; //구조
-  var totPkngCnt; //총주차수
 
   @override
   Widget build(BuildContext context) {
@@ -79,35 +42,11 @@ class _DetailPage extends State<DetailPage> {
           if (snapshot.hasData) {
             PutOutBoard putout = snapshot.data;
 
-            id = snapshot.data!.id.toString();
-            address = snapshot.data!.address;
-            area = snapshot.data!.area.toString();
-            floor = snapshot.data!.floor.toString();
-            deposit = snapshot.data!.deposit.toString();
-            price = snapshot.data!.price.toString();
-            discussion = snapshot.data!.discussion;
-            range = snapshot.data!.range;
-            facility = snapshot.data!.facility;
-            images = snapshot.data!.images;
-            latitude = snapshot.data!.latitude;
-            longitude = snapshot.data!.longitude;
-
-            platArea = snapshot.data!.platArea.toString();
-            archArea = snapshot.data!.archArea.toString();
-            bcRat = snapshot.data!.bcRat.toString();
-            vlRat = snapshot.data!.vlRat.toString();
-            grndFlrCnt = snapshot.data!.grndFlrCnt.toString();
-            ugrndFlrCnt = snapshot.data!.ugrndFlrCnt.toString();
-            mainPurpsCdNm = snapshot.data!.mainPurpsCdNm;
-            etcPurps = snapshot.data!.etcPurps;
-            strctCdNm = snapshot.data!.strctCdNm;
-            totPkngCnt = snapshot.data!.totPkngCnt.toString();
-
             return Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: AppBar(
                 title: Text(
-                  '등록번호 ' + id,
+                  '등록번호 ' + putout.id.toString(),
                   style: TextStyle(color: Colors.black),
                 ),
                 actions: <Widget>[
@@ -118,7 +57,7 @@ class _DetailPage extends State<DetailPage> {
                     ),
                     onPressed: () {
                       setState(() {
-                        updateFavoritePutOut(putout);
+                        putoutController.updateFavoritePutOut(putout);
                       });
                     },
                   ),
@@ -155,13 +94,13 @@ class _DetailPage extends State<DetailPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('신규입점·1층·9평',
+                            Text('${putout.facility}',
                                 style: Theme.of(context).textTheme.subtitle2),
                             Text(
-                              '${address}',
+                              '${putout.address}',
                               style: Theme.of(context).textTheme.headline1,
                             ),
-                            Text('근린상가·서초동·조회63',
+                            Text('${putout.detail_address}',
                                 style: TextStyle(
                                     color: Colors.grey, fontSize: 10.0)),
                           ],
@@ -183,7 +122,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                area + '㎡',
+                                putout.area.toString() + '㎡',
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -193,7 +132,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                floor + '층',
+                                putout.floor.toString() + '층',
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -203,7 +142,11 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                '보증금 ' + deposit + '원, 월세 ' + price + '원',
+                                '보증금 ' +
+                                    putout.deposit.toString() +
+                                    '만원, 월세 ' +
+                                    putout.price.toString() +
+                                    '만원',
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -213,7 +156,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                discussion,
+                                putout.discussion,
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -223,7 +166,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                range,
+                                putout.range,
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -233,7 +176,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                facility,
+                                putout.facility,
                                 style: Theme.of(context).textTheme.bodyText2,
                               )
                             ]),
@@ -256,7 +199,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                platArea,
+                                putout.platArea.toString(),
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -266,7 +209,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                archArea,
+                                putout.archArea.toString(),
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -276,7 +219,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                bcRat,
+                                putout.bcRat.toString(),
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -286,7 +229,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                vlRat,
+                                putout.vlRat.toString(),
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -296,11 +239,11 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                '지하' + ugrndFlrCnt + '층 ~ ',
+                                '지하' + putout.ugrndFlrCnt.toString() + '층 ~ ',
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                               Text(
-                                '지상' + grndFlrCnt + '층',
+                                '지상' + putout.grndFlrCnt.toString() + '층',
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -310,7 +253,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                mainPurpsCdNm,
+                                putout.mainPurpsCdNm,
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -320,7 +263,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                etcPurps,
+                                putout.etcPurps,
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -330,7 +273,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                strctCdNm,
+                                putout.strctCdNm,
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -340,7 +283,7 @@ class _DetailPage extends State<DetailPage> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                totPkngCnt,
+                                putout.totPkngCnt.toString(),
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ]),
@@ -358,7 +301,7 @@ class _DetailPage extends State<DetailPage> {
                                   MaterialStateProperty.all(Colors.white)),
                           onPressed: () {
                             Get.to(() => StreetViewPanoramaInitDemo(),
-                                arguments: [latitude, longitude]);
+                                arguments: [putout.latitude, putout.longitude]);
                           }),
                     ],
                   ),
@@ -367,7 +310,8 @@ class _DetailPage extends State<DetailPage> {
               floatingActionButton: FloatingActionButton.extended(
                 backgroundColor: Color(0xff662D91),
                 onPressed: () {
-                  Get.to(() => ApplySpacePage(), arguments: [id, address]);
+                  Get.to(() => ApplySpacePage(),
+                      arguments: [putout.id.toString(), putout.address]);
                 },
                 label: const Text('신청하기'),
               ),

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/src/components/custom_elecated_button.dart';
 import 'package:flutter_application/src/components/custom_text_form_field.dart';
+import 'package:flutter_application/src/controller/user_controller.dart';
 import 'package:flutter_application/sub/home.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,8 @@ class putOutPage2 extends StatefulWidget {
 }
 
 class _putOutPage2 extends State<putOutPage2> {
+  final UserController userController = Get.put(UserController());
+
   final _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
   final _contact = TextEditingController();
@@ -91,7 +94,7 @@ class _putOutPage2 extends State<putOutPage2> {
               ),
               CustomTextFormField(
                 controller: _contact,
-                hint: "연락처",
+                hint: "연락처('-'없이 입력하세요.)",
                 funValidator: validateContent(),
                 keyboardType: TextInputType.number,
               ),
@@ -125,10 +128,20 @@ class _putOutPage2 extends State<putOutPage2> {
                     },
                     style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.blue)),
+                            MaterialStateProperty.all<Color>(Colors.white),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: Colors.black,
+                              width: 1,
+                              style: BorderStyle.solid),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30.0),
+                          ),
+                        ))),
                     child: Text(
                       '주소검색',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                   Text(
@@ -164,13 +177,13 @@ class _putOutPage2 extends State<putOutPage2> {
               ),
               CustomTextFormField(
                 controller: _deposit,
-                hint: "희망 보증금(원)",
+                hint: "희망 보증금(만원)",
                 funValidator: validateContent(),
                 keyboardType: TextInputType.number,
               ),
               CustomTextFormField(
                 controller: _price,
-                hint: "희망 월세(원)",
+                hint: "희망 월세(만원)",
                 funValidator: validateContent(),
                 keyboardType: TextInputType.number,
               ),
@@ -528,6 +541,7 @@ class _putOutPage2 extends State<putOutPage2> {
             'application/x-www-form-urlencoded', //'application/x-www-form-urlencoded',
       },
       body: <String, String>{
+        'uid': userController.uid.value,
         'name': _name.text,
         'contact': _contact.text,
         'area': _area.text,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/src/binding/init_binding.dart';
 import 'package:flutter_application/sub/mapPage.dart';
 import 'package:flutter_application/sub/putOut1.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: theme(),
+      initialBinding: InitBinding(),
       home: DatabaseApp(), //파이어베이스
     );
   }
