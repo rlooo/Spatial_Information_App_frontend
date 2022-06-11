@@ -111,7 +111,9 @@ class _MapPageState extends State<MapPage> {
                       customScript: ''';
 
                                         var markers = [];
-                                        var overlay;
+                                        var overlays = [];
+                                        var checkOverlays = [];
+                                        var index2;
 
                                         function addMarker(position) {
 
@@ -123,12 +125,13 @@ class _MapPageState extends State<MapPage> {
                                         }
 
                                         function displayMarker(latitude, longitude, index, price, deposit, area, floor, range) {
+                                          index2=index;
 
                                           const content = '<div class="wrap">' + 
             '    <div class="info">' + 
             '        <div class="title">' + 
             '            카카오 스페이스닷원' + 
-            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+            '            <div class="close" onclick="closeOverlay('+index+')" title="닫기"></div>' + 
             '        </div>' + 
             '        <div class="body">' + 
             '            <div class="img">' +
@@ -152,28 +155,31 @@ class _MapPageState extends State<MapPage> {
                                           yAnchor: 1
                                         });
 
+                                          overlays.push(overlay);
+
                                           addMarker(new kakao.maps.LatLng(latitude, longitude));
+                                          
+                                          checkOverlays[index]=true;
 
                                           // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
                                           kakao.maps.event.addListener(markers[index], 'click', (function(i) {
                                             return function(){
+                                              if(checkOverlays[index]==false){
+                                              overlays[index].setMap(map);
+                                              checkOverlays[index]=true;
+                                              }
+                                              else{
                                               onTapMarker.postMessage(i);
-                                              overlay.setMap(map);
+                                              }
                                             };
                                           })(index));
 
-                                          // //오버레이를 클릭했을 때 커스텀 오버레이를 표시합니다
-                                          // kakao.maps.event.addListener(markers[index], 'click', (function(i) {
-                                          //   return function(){
-                                          //     onTapMarker.postMessage(i);
-                                          //     overlay.setMap(map);
-                                          //   };
-                                          // })(index));
                                         }
 
                                           // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
-                                          function closeOverlay() {
-                                            overlay.setMap(null);     
+                                          function closeOverlay(index) {
+                                            overlays[index].setMap(null);     
+                                            checkOverlays[index]=false;
                                           }
                                           
 
