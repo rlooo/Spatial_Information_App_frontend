@@ -106,18 +106,12 @@ class _MapPageState extends State<MapPage> {
                       mapController: (controller) {
                         _mapController = controller;
                       },
-                      customOverlayStyle: '''<style>
-              .customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
-.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
-.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-              </style>''',
                       markerImageURL:
                           'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
-                      customScript: '''
+                      customScript: ''';
 
                                         var markers = [];
+                                        var overlay;
 
                                         function addMarker(position) {
 
@@ -128,15 +122,30 @@ class _MapPageState extends State<MapPage> {
                                           markers.push(marker);
                                         }
 
-                                        function displayMarker(latitude, longitude, index, price, deposit) {
+                                        function displayMarker(latitude, longitude, index, price, deposit, area, floor, range) {
 
-                                          const content = '<div class="customoverlay">' +
-                      '    <span class="title">' + price + '만원 /' + deposit + '만원'+ '</span>' +
-                      '</div>'; 
-
+                                          const content = '<div class="wrap">' + 
+            '    <div class="info">' + 
+            '        <div class="title">' + 
+            '            카카오 스페이스닷원' + 
+            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+            '        </div>' + 
+            '        <div class="body">' + 
+            '            <div class="img">' +
+            '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+            '           </div>' + 
+            '            <div class="desc">' + 
+            '                <div class="ellipsis">' + '보증금 '+ price + '만원 /' + '월세 '+ deposit + '만원'+ '</div>' + 
+            '                <div class="jibun ellipsis">' + '면적 '+ area + '평  ' + '층 '+ floor + '층'+ '</div>' + 
+            '                <div class="jibun ellipsis">'+'사용면적 '+range+'</div>' + 
+            '            </div>' + 
+            '        </div>' + 
+            '    </div>' +    
+            '</div>';
+                      
                                           const position = new kakao.maps.LatLng(latitude, longitude);
 
-                                          const customOverlay = new kakao.maps.CustomOverlay({
+                                          overlay = new kakao.maps.CustomOverlay({
                                           map:map,
                                           position: position,
                                           content: content,
@@ -145,12 +154,29 @@ class _MapPageState extends State<MapPage> {
 
                                           addMarker(new kakao.maps.LatLng(latitude, longitude));
 
+                                          // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
                                           kakao.maps.event.addListener(markers[index], 'click', (function(i) {
                                             return function(){
                                               onTapMarker.postMessage(i);
+                                              overlay.setMap(map);
                                             };
                                           })(index));
+
+                                          // //오버레이를 클릭했을 때 커스텀 오버레이를 표시합니다
+                                          // kakao.maps.event.addListener(markers[index], 'click', (function(i) {
+                                          //   return function(){
+                                          //     onTapMarker.postMessage(i);
+                                          //     overlay.setMap(map);
+                                          //   };
+                                          // })(index));
                                         }
+
+                                          // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+                                          function closeOverlay() {
+                                            overlay.setMap(null);     
+                                          }
+                                          
+
                                           ${_test()}
 
                                           var zoomControl = new kakao.maps.ZoomControl();
@@ -158,6 +184,8 @@ class _MapPageState extends State<MapPage> {
 
                                           var mapTypeControl = new kakao.maps.MapTypeControl();
                                           map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+
 
                                                   ''',
                       onTapMarker: (message) async {
@@ -179,7 +207,7 @@ class _MapPageState extends State<MapPage> {
     String displayMarker = '';
     for (int i = 0; i < buildingArray.length; i++) {
       displayMarker +=
-          "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, $i, ${buildingArray[i].price}, ${buildingArray[i].deposit})\n";
+          "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, $i, ${buildingArray[i].price}, ${buildingArray[i].deposit}, ${buildingArray[i].area}, ${buildingArray[i].floor}, ${buildingArray[i].range})\n";
     }
 
     return displayMarker;

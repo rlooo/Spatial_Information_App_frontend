@@ -93,7 +93,7 @@ class _QnAPage extends State<QnAPage> {
               ),
               floatingActionButton: FloatingActionButton.extended(
                 onPressed: () {
-                  Get.to(() => NewQnAPage());
+                  Get.off(() => NewQnAPage());
                 },
                 label: const Text('글쓰기'),
               ),
@@ -160,7 +160,7 @@ class NewQnAPage extends StatelessWidget {
                   if (_formKey.currentState!.validate()) {
                     saveQnA();
                     flutterToast();
-                    Get.to(() => ViewMoreApp());
+                    Get.off(() => QnAPage());
                   }
                 },
               ),

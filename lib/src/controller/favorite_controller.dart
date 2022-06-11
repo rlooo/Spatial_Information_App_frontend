@@ -12,6 +12,7 @@ class FavoriteController extends GetxController {
 
   void updateFavorite(PutOutBoard putout) {
     if (favoriteList.contains(putout)) {
+      putout.setFavorite(false);
       favoriteList.remove(putout);
     } else {
       putout.setFavorite(true);

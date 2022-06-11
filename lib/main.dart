@@ -92,13 +92,13 @@ class _MyHomePageState extends State<MyHomePage>
               icon: Icon(
                 Icons.real_estate_agent,
               ),
-              text: '나누기',
+              text: '나눠요',
             ),
             Tab(
               icon: Icon(
                 Icons.place,
               ),
-              text: '신청하기',
+              text: '구해요',
             ),
             Tab(
               icon: Icon(

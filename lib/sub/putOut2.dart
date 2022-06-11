@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/src/components/custom_elecated_button.dart';
 import 'package:flutter_application/src/components/custom_text_form_field.dart';
+import 'package:flutter_application/src/components/custom_textarea.dart';
 import 'package:flutter_application/src/controller/user_controller.dart';
 import 'package:flutter_application/sub/home.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -33,6 +34,7 @@ class _putOutPage2 extends State<putOutPage2> {
   final _floor = TextEditingController();
   final _deposit = TextEditingController();
   final _area = TextEditingController();
+  final _remarks = TextEditingController();
 
   dynamic discussion = 1;
   dynamic client;
@@ -94,7 +96,7 @@ class _putOutPage2 extends State<putOutPage2> {
               ),
               CustomTextFormField(
                 controller: _contact,
-                hint: "연락처('-'없이 입력하세요.)",
+                hint: "연락처( - 없이 입력하세요.)",
                 funValidator: validateContent(),
                 keyboardType: TextInputType.number,
               ),
@@ -501,6 +503,11 @@ class _putOutPage2 extends State<putOutPage2> {
                   ),
                 ],
               ),
+              CustomTextArea(
+                controller: _remarks,
+                hint: "비고란",
+                funValidator: validateContent(),
+              ),
               ListTile(
                 title: Text('\n사진업로드\n'),
                 onTap: () async {
@@ -559,7 +566,8 @@ class _putOutPage2 extends State<putOutPage2> {
         'kakaoLatitude': kakaoLatitude,
         'kakaoLongitude': kakaoLongitude,
         'addressName': addressName,
-        'datailAddress': _detailAddress.text,
+        'detailAddress': _detailAddress.text,
+        'remarks': _remarks.text,
       },
     );
   }

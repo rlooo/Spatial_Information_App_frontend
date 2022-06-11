@@ -17,7 +17,7 @@ class FavoritePage extends GetView<FavoriteController> {
           title: Row(
             children: [
               const Text(
-                '찜한 매물',
+                '찜한 공간',
                 style: TextStyle(color: Colors.black),
               ),
               const SizedBox(width: 4.0),

@@ -89,6 +89,28 @@ class _DetailPage extends State<DetailPage> {
                         height: 300,
                         fit: BoxFit.fitWidth,
                       ),
+                      TextButton(
+                          child: Text(
+                            '로드뷰',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white),
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30.0),
+                                ),
+                              ))),
+                          onPressed: () {
+                            Get.to(() => StreetViewPanoramaInitDemo(),
+                                arguments: [putout.latitude, putout.longitude]);
+                          }),
                       Container(
                         padding: EdgeInsets.all(10), //모든 내부 면에 여백
                         child: Column(
@@ -113,7 +135,7 @@ class _DetailPage extends State<DetailPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '매물 세부 정보\n',
+                              '공간 세부 정보\n',
                               style: Theme.of(context).textTheme.headline2,
                             ),
                             Row(children: <Widget>[
@@ -291,18 +313,6 @@ class _DetailPage extends State<DetailPage> {
                         ),
                       ),
                       Divider(thickness: 1, height: 0.5, color: Colors.grey),
-                      ElevatedButton(
-                          child: Text(
-                            '로드뷰',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.white)),
-                          onPressed: () {
-                            Get.to(() => StreetViewPanoramaInitDemo(),
-                                arguments: [putout.latitude, putout.longitude]);
-                          }),
                     ],
                   ),
                 ),
