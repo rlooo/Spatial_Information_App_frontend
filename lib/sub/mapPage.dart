@@ -130,7 +130,7 @@ class _MapPageState extends State<MapPage> {
                                           const content = '<div class="wrap">' + 
             '    <div class="info">' + 
             '        <div class="title">' + 
-            '            카카오 스페이스닷원' + 
+            '            주소명' + 
             '            <div class="close" onclick="closeOverlay('+index+')" title="닫기"></div>' + 
             '        </div>' + 
             '        <div class="body">' + 

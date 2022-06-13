@@ -167,7 +167,7 @@ class _putOutPage2 extends State<putOutPage2> {
               ),
               CustomTextFormField(
                 controller: _area,
-                hint: "면적",
+                hint: "면적(평)",
                 funValidator: validateContent(),
                 keyboardType: TextInputType.number,
               ),

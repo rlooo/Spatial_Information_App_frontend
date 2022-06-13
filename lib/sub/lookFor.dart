@@ -370,7 +370,7 @@ class _LookForPage2 extends State<LookForPage2> {
               ),
               CustomTextFormField(
                 controller: _area,
-                hint: "희망면적",
+                hint: "희망면적(평)",
                 funValidator: validateContent(),
                 keyboardType: TextInputType.number,
               ),
