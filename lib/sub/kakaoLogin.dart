@@ -11,15 +11,7 @@ import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
 
-class KakaoLoginApp extends StatefulWidget {
-  // final Future<Database>? db;
-  // WishApp({this.db});
-
-  @override
-  _KakaoLoginApp createState() => _KakaoLoginApp();
-}
-
-class _KakaoLoginApp extends State<KakaoLoginApp> {
+class KakaoLoginApp extends StatelessWidget {
   final TokenController tokenController = Get.put(TokenController());
   final UserController userController = Get.put(UserController());
 
@@ -34,6 +26,7 @@ class _KakaoLoginApp extends State<KakaoLoginApp> {
       userController.updateUserInfo(user.id.toString(),
           user.kakaoAccount?.profile?.nickname, user.kakaoAccount?.email);
       saveUser();
+      print(userController.nickname);
     } catch (error) {
       print('사용자 정보 요청 실패 $error');
     }
@@ -57,12 +50,6 @@ class _KakaoLoginApp extends State<KakaoLoginApp> {
     } catch (error) {
       print('연결 끊기 실패 $error');
     }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
   }
 
   @override

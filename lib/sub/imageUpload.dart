@@ -31,7 +31,7 @@ class _ImageUpload extends State<ImageUpload> {
 
   Future<void> _onImageButtonPressed(ImageSource source,
       {BuildContext? context, bool isMultiImage = false}) async {
-    if (isMultiImage) {
+    if (isMultiImage) { // 여러개 이미지일 때
       await _displayPickImageDialog(context!,
           (double? maxWidth, double? maxHeight, int? quality) async {
         try {
@@ -42,6 +42,7 @@ class _ImageUpload extends State<ImageUpload> {
           );
           setState(() {
             _imageFileList = pickedFileList;
+            Get.back(result: _imageFileList);
           });
         } catch (e) {
           setState(() {
@@ -49,7 +50,7 @@ class _ImageUpload extends State<ImageUpload> {
           });
         }
       });
-    } else {
+    } else { //단일 이미지일 때
       await _displayPickImageDialog(context!,
           (double? maxWidth, double? maxHeight, int? quality) async {
         try {
@@ -62,8 +63,9 @@ class _ImageUpload extends State<ImageUpload> {
           setState(() {
             _imageFile = pickedFile;
             if (pickedFile != null) {
-              dynamic sendData = pickedFile.path;
-              Get.back(result: sendData);
+              // dynamic sendData = pickedFile.path;
+              // Get.back(result: sendData);
+              Get.back(result: _imageFileList);
             }
           });
         } catch (e) {

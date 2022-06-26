@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application/data/putOutBoard.dart';
@@ -41,7 +42,7 @@ class _DetailPage extends State<DetailPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             PutOutBoard putout = snapshot.data;
-
+            print(putout.id.toString());
             return Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: AppBar(
@@ -58,6 +59,7 @@ class _DetailPage extends State<DetailPage> {
                     onPressed: () {
                       setState(() {
                         putoutController.updateFavoritePutOut(putout);
+                        print(putout.isFavorite);
                       });
                     },
                   ),
@@ -84,11 +86,12 @@ class _DetailPage extends State<DetailPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Image.asset(
-                        'images/kakao1.jpg',
-                        height: 300,
-                        fit: BoxFit.fitWidth,
-                      ),
+                      // Image.asset(
+                      //   'images/kakao1.jpg',
+                      //   height: 300,
+                      //   fit: BoxFit.fitWidth,
+                      // ),
+                      Image.file(File('${putout.images}')),
                       TextButton(
                           child: Text(
                             '로드뷰',

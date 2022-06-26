@@ -14,9 +14,12 @@ class FavoriteController extends GetxController {
     if (favoriteList.contains(putout)) {
       putout.setFavorite(false);
       favoriteList.remove(putout);
+      print(favoriteList);
     } else {
       putout.setFavorite(true);
       favoriteList.add(putout);
+      print(favoriteList);
     }
+    //db.update
   }
 }

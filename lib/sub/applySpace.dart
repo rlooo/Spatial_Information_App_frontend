@@ -301,7 +301,7 @@ class NextApplySpacePage extends StatefulWidget {
 }
 
 class _NextApplySpacePage extends State<NextApplySpacePage> {
-  // final UserController userController = Get.put(UserController());
+  final UserController userController = Get.put(UserController());
 
   var buildingId = Get.arguments[0];
   var address = Get.arguments[1];
@@ -399,7 +399,7 @@ class _NextApplySpacePage extends State<NextApplySpacePage> {
                 text: "신청하기",
                 funPageRoute: () {
                   if (_formKey.currentState!.validate()) {
-                    saveLookFor();
+                    saveApply();
                     flutterToast();
                     Navigator.pop(context);
                   }
@@ -412,7 +412,7 @@ class _NextApplySpacePage extends State<NextApplySpacePage> {
     );
   }
 
-  Future<void> saveLookFor() async {
+  Future<void> saveApply() async {
     Uri url = Uri.parse('http://10.0.2.2:8000/board/new_post/applyspace/');
 
     http.Response response = await http.post(
@@ -422,7 +422,7 @@ class _NextApplySpacePage extends State<NextApplySpacePage> {
             'application/x-www-form-urlencoded', //'application/x-www-form-urlencoded',
       },
       body: <String, String>{
-        // 'uid': userController.uid.value,
+        'uid': userController.uid.value,
         'buildingId': buildingId.toString(), //신청할 건물 id
         'name': _name.text,
         'contact': _contact.text,

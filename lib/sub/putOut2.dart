@@ -1,21 +1,21 @@
 import 'dart:io';
 
-import 'package:firebase_database/firebase_database.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/src/components/custom_elecated_button.dart';
 import 'package:flutter_application/src/components/custom_text_form_field.dart';
 import 'package:flutter_application/src/components/custom_textarea.dart';
 import 'package:flutter_application/src/controller/user_controller.dart';
-import 'package:flutter_application/sub/home.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as _get;
+import 'package:image_picker/image_picker.dart';
 import 'package:kpostal/kpostal.dart';
-import 'package:flutter_application/data/putOutBoard.dart';
 
-import '../main.dart';
 import '../util/validator_util.dart';
 import 'imageUpload.dart';
+
+import 'package:http_parser/http_parser.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -25,7 +25,7 @@ class putOutPage2 extends StatefulWidget {
 }
 
 class _putOutPage2 extends State<putOutPage2> {
-  final UserController userController = Get.put(UserController());
+  final UserController userController = _get.Get.put(UserController());
 
   final _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
@@ -43,7 +43,8 @@ class _putOutPage2 extends State<putOutPage2> {
   dynamic range;
   dynamic facilities = List<bool>.filled(12, false);
   dynamic facilities_result = <int>[];
-  var imagePath;
+
+  List<XFile> pickedImgs = [];
 
   bool _isChecked = false;
 
@@ -511,16 +512,17 @@ class _putOutPage2 extends State<putOutPage2> {
               ListTile(
                 title: Text('\n사진업로드\n'),
                 onTap: () async {
-                  imagePath = await Get.to(ImageUpload());
+                  pickedImgs = await _get.Get.to(ImageUpload());
                 },
               ),
               CustomElevatedButton(
                   text: "신청하기",
                   funPageRoute: () async {
                     if (_formKey.currentState!.validate()) {
-                      savePutOut();
+                      // savePutOut();
+                      savePutOut2();
                       flutterToast();
-                      Get.back();
+                      _get.Get.back();
                     }
                   }),
             ],
@@ -530,7 +532,7 @@ class _putOutPage2 extends State<putOutPage2> {
     );
   }
 
-  Future<void> savePutOut() async {
+  Future<void> savePutOut2() async {
     for (var i = 1; facilities[i]; i++) {
       stdout.writeln("This log is using stdout");
 
@@ -539,37 +541,49 @@ class _putOutPage2 extends State<putOutPage2> {
       }
     }
 
-    Uri url = Uri.parse('http://10.0.2.2:8000/board/new_post/put_out/');
+    FormData _formData;
+    final List<MultipartFile> _files = pickedImgs
+        .map((img) => MultipartFile.fromFileSync(img.path,
+            contentType: MediaType("image", "jpg")))
+        .toList();
 
-    http.Response response = await http.post(
-      url,
-      headers: <String, String>{
-        'Content-Type':
-            'application/x-www-form-urlencoded', //'application/x-www-form-urlencoded',
-      },
-      body: <String, String>{
-        'uid': userController.uid.value,
-        'name': _name.text,
-        'contact': _contact.text,
-        'area': _area.text,
-        'floor': _floor.text,
-        'deposit': _deposit.text,
-        'price': _price.text,
-        'discussion': discussion.toString(),
-        'client': client.toString(),
-        'sort': sort.toString(),
-        'count': count.toString(),
-        'range': range.toString(),
-        'facilities': facilities_result.toString(),
-        'images': imagePath.toString(),
-        'address': address,
-        'kakaoLatitude': kakaoLatitude,
-        'kakaoLongitude': kakaoLongitude,
-        'addressName': addressName,
-        'detailAddress': _detailAddress.text,
-        'remarks': _remarks.text,
-      },
+    _formData = FormData.fromMap({
+      'file': _files,
+      'uid': userController.uid.value,
+      'name': _name.text,
+      'contact': _contact.text,
+      'area': _area.text,
+      'floor': _floor.text,
+      'deposit': _deposit.text,
+      'price': _price.text,
+      'discussion': discussion.toString(),
+      'client': client.toString(),
+      'sort': sort.toString(),
+      'count': count.toString(),
+      'range': range.toString(),
+      'facilities': facilities_result.toString(),
+      'address': address,
+      'kakaoLatitude': kakaoLatitude,
+      'kakaoLongitude': kakaoLongitude,
+      'addressName': addressName,
+      'detailAddress': _detailAddress.text,
+      'remarks': _remarks.text,
+    });
+
+    Dio dio = Dio();
+
+    dio.options.contentType = 'multipart/form-data';
+
+    final res = await dio.post(
+      'http://10.0.2.2:8000/board/new_post/put_out2/',
+      data: _formData,
     );
+
+    if (res.statusCode == 200) {
+      print(res.data);
+    } else {
+      print('eeerror');
+    }
   }
 
   void flutterToast() {

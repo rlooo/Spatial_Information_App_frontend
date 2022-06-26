@@ -36,7 +36,6 @@ Future<List<PutOutBoard>?> fetchPutOutBoard() async {
         count: building['count'],
         range: building['range'],
         facility: building['facility'],
-        images: building['images'],
         latitude: building['kakaoLatitude'],
         longitude: building['kakaoLongitude'],
         address: building['address'],
@@ -134,10 +133,10 @@ class _MapPageState extends State<MapPage> {
             '            <div class="close" onclick="closeOverlay('+index+')" title="닫기"></div>' + 
             '        </div>' + 
             '        <div class="body">' + 
-            '            <div class="img">' +
+            '            <div class="img" onclick="clickOverlay('+index+')" >' +
             '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
             '           </div>' + 
-            '            <div class="desc">' + 
+            '            <div class="desc" onclick="clickOverlay('+index+')">' + 
             '                <div class="ellipsis">' + '보증금 '+ price + '만원 /' + '월세 '+ deposit + '만원'+ '</div>' + 
             '                <div class="jibun ellipsis">' + '면적 '+ area + '평  ' + '층 '+ floor + '층'+ '</div>' + 
             '                <div class="jibun ellipsis">'+'사용면적 '+range+'</div>' + 
@@ -180,6 +179,11 @@ class _MapPageState extends State<MapPage> {
                                           function closeOverlay(index) {
                                             overlays[index].setMap(null);     
                                             checkOverlays[index]=false;
+                                          }
+
+                                           // 오버레이를 클릭했을 대
+                                          function clickOverlay(index) {
+                                            onTapMarker.postMessage(index);
                                           }
                                           
 
