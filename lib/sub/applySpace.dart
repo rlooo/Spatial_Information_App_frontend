@@ -170,10 +170,8 @@ class _ApplySpacePage extends State<ApplySpacePage> {
                   CustomElevatedButton(
                     text: "지금 신청하기",
                     funPageRoute: () async {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NextApplySpacePage()));
+                      Get.to(() => NextApplySpacePage(),
+                          arguments: [id.toString(), address]);
                     },
                   ),
                 ],
