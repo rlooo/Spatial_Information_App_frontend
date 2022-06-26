@@ -123,13 +123,13 @@ class _MapPageState extends State<MapPage> {
                                           markers.push(marker);
                                         }
 
-                                        function displayMarker(latitude, longitude, index, price, deposit, area, floor, range) {
+                                        function displayMarker(latitude, longitude, index, price, deposit, area, floor, range, address) {
                                           index2=index;
 
                                           const content = '<div class="wrap">' + 
             '    <div class="info">' + 
             '        <div class="title">' + 
-            '            주소명' + 
+                      address + 
             '            <div class="close" onclick="closeOverlay('+index+')" title="닫기"></div>' + 
             '        </div>' + 
             '        <div class="body">' + 
@@ -215,21 +215,12 @@ class _MapPageState extends State<MapPage> {
 
   String _test() {
     String displayMarker = '';
+
     for (int i = 0; i < buildingArray.length; i++) {
       displayMarker +=
-          "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, $i, ${buildingArray[i].price}, ${buildingArray[i].deposit}, ${buildingArray[i].area}, ${buildingArray[i].floor}, ${buildingArray[i].range})\n";
+          "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, $i, ${buildingArray[i].price}, ${buildingArray[i].deposit}, ${buildingArray[i].area}, ${buildingArray[i].floor}, ${buildingArray[i].range}, '${buildingArray[i].address}')\n";
     }
 
     return displayMarker;
-  }
-
-  String _test2() {
-    String customOverlay = '';
-    for (int i = 0; i < buildingArray.length; i++) {
-      customOverlay +=
-          "setCustomOverlay(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, $i)\n";
-    }
-
-    return customOverlay;
   }
 }
