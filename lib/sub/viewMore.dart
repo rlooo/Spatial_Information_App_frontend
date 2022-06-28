@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/src/controller/token_controller.dart';
 import 'package:flutter_application/sub/QnA.dart';
+import 'package:flutter_application/sub/imageLoadPage.dart';
 import 'package:flutter_application/sub/introduce.dart';
 import 'package:flutter_application/sub/lookFor.dart';
 import 'package:flutter_application/sub/putOut1.dart';
@@ -9,7 +10,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
-import 'imageUpload.dart';
 import 'kakaoLogin.dart';
 import 'notice.dart';
 
@@ -92,6 +92,12 @@ class ViewMoreApp extends StatelessWidget {
               onTap: () {
                 logout();
                 LogoutToast();
+              },
+            ),
+            ListTile(
+              title: Text('이미지테스트'),
+              onTap: () {
+                Get.to(() => ImageLoadPage());
               },
             ),
             // ElevatedButton(child: Text('고객센터'), onPressed: () async {})

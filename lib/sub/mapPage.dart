@@ -134,7 +134,7 @@ class _MapPageState extends State<MapPage> {
             '        </div>' + 
             '        <div class="body">' + 
             '            <div class="img" onclick="clickOverlay('+index+')" >' +
-            '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+            '                <img src="http://10.0.2.2:8000/media/media/putout/scaled_image_picker3614051294157898634.jpg" width="73" height="70">' +
             '           </div>' + 
             '            <div class="desc" onclick="clickOverlay('+index+')">' + 
             '                <div class="ellipsis">' + '보증금 '+ price + '만원 /' + '월세 '+ deposit + '만원'+ '</div>' + 
