@@ -153,12 +153,13 @@ class _MapPageState extends State<MapPage> {
                                           content: content,
                                           yAnchor: 1
                                         });
+                                          overlay.setMap(null);//처음에 지도에 표시하지 않기 위함
 
                                           overlays.push(overlay);
 
                                           addMarker(new kakao.maps.LatLng(latitude, longitude));
                                           
-                                          checkOverlays[index]=true;
+                                          checkOverlays[index]=false;
 
                                           // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
                                           kakao.maps.event.addListener(markers[index], 'click', (function(i) {

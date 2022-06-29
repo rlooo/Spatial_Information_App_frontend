@@ -33,6 +33,9 @@ class _DetailPage extends State<DetailPage> {
   bool _isPressed = false;
   var _mapController;
 
+  String imageUrl =
+      'http://10.0.2.2:8000/media/media/putout/scaled_image_picker3614051294157898634.jpg';
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -86,12 +89,19 @@ class _DetailPage extends State<DetailPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      // Image.asset(
-                      //   'images/kakao1.jpg',
-                      //   height: 300,
-                      //   fit: BoxFit.fitWidth,
-                      // ),
-                      Image.file(File('${putout.images}')),
+                      Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(border: Border.all()),
+                        child: Image.network(
+                          imageUrl,
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            return Image.asset('images/default.PNG',
+                                fit: BoxFit.contain);
+                          },
+                        ),
+                      ),
                       TextButton(
                           child: Text(
                             '로드뷰',
