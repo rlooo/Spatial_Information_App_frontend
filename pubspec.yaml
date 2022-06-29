@@ -47,14 +47,16 @@ dependencies:
   kpostal: ^0.4.2
   provider: ^6.0.2
   flutter_secure_storage: ^5.0.2
-  kakao_flutter_sdk: ^1.1.1 #1.1.0
+  kakao_flutter_sdk: ^1.1.1
   firebase_database_web: ^0.2.0+10
   sqflite:
-  flutter_google_street_view: ^2.2.8 #2.2.7
+  flutter_google_street_view: ^2.2.8
   shared_preferences: ^2.0.13
   equatable:
   webview_flutter:
   file_picker: ^4.6.1
+  flutter_linkify: ^5.0.2
+  url_launcher: ^6.1.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

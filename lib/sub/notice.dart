@@ -7,6 +7,8 @@ import '../data/notice.dart';
 
 import 'package:http/http.dart' as http;
 
+import 'package:url_launcher/url_launcher.dart';
+
 List<Notice> noticeArray = [];
 
 Future<List<Notice>?> fetchNotice() async {
@@ -20,6 +22,7 @@ Future<List<Notice>?> fetchNotice() async {
       entries.add(Notice(
         title: notice['title'],
         content: notice['content'],
+        link: notice['link'],
         created_at: notice['created_at'],
       ));
     }
@@ -76,6 +79,12 @@ class _NoticePage extends State<NoticePage> {
                           Text('${noticeArray[index].title}'),
                           Text('${noticeArray[index].created_at}'),
                           Text('${noticeArray[index].content}'),
+                          TextButton(
+                            onPressed: () {
+                              _launchUrl('${noticeArray[index].link}');
+                            },
+                            child: Text('${noticeArray[index].link}'),
+                          ),
                         ]));
                   },
                   separatorBuilder: (BuildContext context, int index) =>
@@ -86,5 +95,10 @@ class _NoticePage extends State<NoticePage> {
           }
           return CircularProgressIndicator();
         });
+  }
+
+  void _launchUrl(String url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) throw 'Could not launch $_url';
   }
 }
