@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application/data/putOutBoard.dart';
+import 'package:flutter_application/repository/contents_repository.dart';
 import 'package:flutter_application/src/controller/putout_controller.dart';
 import 'package:flutter_application/sub/applySpace.dart';
 import 'package:flutter_application/sub/streetView.dart';
@@ -33,6 +33,9 @@ class _DetailPage extends State<DetailPage> {
   bool _isPressed = false;
   var _mapController;
 
+  bool isMyFavoriteContent = false;
+  final ContentsRepository contentsRepository = ContentsRepository();
+
   String imageUrl =
       'http://10.0.2.2:8000/media/media/putout/scaled_image_picker3614051294157898634.jpg';
 
@@ -45,7 +48,7 @@ class _DetailPage extends State<DetailPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             PutOutBoard putout = snapshot.data;
-            print(putout.id.toString());
+            _loadFavoriteContentState(putout.id);
             return Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: AppBar(
@@ -57,12 +60,20 @@ class _DetailPage extends State<DetailPage> {
                   IconButton(
                     icon: Icon(
                       Icons.favorite,
-                      color: putout.isFavorite ? Colors.red : Colors.grey,
+                      color: isMyFavoriteContent ? Colors.red : Colors.grey,
+                      // color: putout.isFavorite ? Colors.red : Colors.grey,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      // if (isMyFavoriteContent) {
+                      //   await contentsRepository
+                      //       .deleteMyFavoriteContent(putout.id);
+                      // } else {
+                      await contentsRepository.addMyFavoriteContent(putout.id);
+                      // }
                       setState(() {
-                        putoutController.updateFavoritePutOut(putout);
-                        print(putout.isFavorite);
+                        isMyFavoriteContent = !isMyFavoriteContent;
+                        // putoutController.updateFavoritePutOut(putout);
+                        // print(putout.isFavorite);
                       });
                     },
                   ),
@@ -344,6 +355,14 @@ class _DetailPage extends State<DetailPage> {
           }
           return CircularProgressIndicator();
         });
+  }
+
+  _loadFavoriteContentState(id) async {
+    bool ck = await contentsRepository.isMyFavoriteContents(id);
+    print(ck);
+    setState(() {
+      isMyFavoriteContent = ck;
+    });
   }
 
   // void wish(bool isPressed) {
