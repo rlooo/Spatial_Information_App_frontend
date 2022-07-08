@@ -89,7 +89,7 @@ class PutOutBoard extends Equatable {
       address: json['address'],
       detail_address: json['detail_address'],
       created_at: json['created_at'],
-      isFavorite: json['isFavorite'] ?? false,
+      isFavorite: json['isFavorite'],
       platArea: json['platArea'],
       archArea: json['archArea'],
       bcRat: json['bcRat'],
