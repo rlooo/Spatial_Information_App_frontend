@@ -27,7 +27,6 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPage extends State<DetailPage> {
-  final PutOutController putoutController = Get.put(PutOutController());
   var pk = Get.arguments;
 
   bool _isPressed = false;
@@ -61,19 +60,18 @@ class _DetailPage extends State<DetailPage> {
                     icon: Icon(
                       Icons.favorite,
                       color: isMyFavoriteContent ? Colors.red : Colors.grey,
-                      // color: putout.isFavorite ? Colors.red : Colors.grey,
                     ),
                     onPressed: () async {
-                      // if (isMyFavoriteContent) {
-                      //   await contentsRepository
-                      //       .deleteMyFavoriteContent(putout.id);
-                      // } else {
-                      await contentsRepository.addMyFavoriteContent(putout.id);
-                      // }
+                      if (isMyFavoriteContent) {
+                        await contentsRepository
+                            .deleteMyFavoriteContent(putout.id);
+                      } else {
+                        await contentsRepository
+                            .addMyFavoriteContent(putout.id);
+                      }
+
                       setState(() {
                         isMyFavoriteContent = !isMyFavoriteContent;
-                        // putoutController.updateFavoritePutOut(putout);
-                        // print(putout.isFavorite);
                       });
                     },
                   ),
@@ -359,7 +357,6 @@ class _DetailPage extends State<DetailPage> {
 
   _loadFavoriteContentState(id) async {
     bool ck = await contentsRepository.isMyFavoriteContents(id);
-    print(ck);
     setState(() {
       isMyFavoriteContent = ck;
     });

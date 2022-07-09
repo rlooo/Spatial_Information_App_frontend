@@ -12,9 +12,9 @@ class LocalStorageRepository {
     }
   }
 
-  Future<void> setValue(String key, dynamic value) async {
+  Future<void> setValue(String key, String value) async {
     try {
-      await _storage.write(key: key, value: value.toString());
+      await _storage.write(key: key, value: value);
     } catch (error) {
       return null;
     }

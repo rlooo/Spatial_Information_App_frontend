@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:equatable/equatable.dart';
 
-class PutOutBoard extends Equatable {
+class PutOutBoard {
   var id;
   var author; //수정
   var name;
@@ -22,7 +22,6 @@ class PutOutBoard extends Equatable {
   var address;
   var detail_address;
   var created_at;
-  bool isFavorite;
 
   var platArea; //대지면적
   var archArea; //건축면적
@@ -55,7 +54,6 @@ class PutOutBoard extends Equatable {
     this.address,
     this.detail_address,
     this.created_at,
-    this.isFavorite = false,
     this.platArea, //대지면적
     this.archArea, //건축면적
     this.bcRat, //건폐율
@@ -89,7 +87,6 @@ class PutOutBoard extends Equatable {
       address: json['address'],
       detail_address: json['detail_address'],
       created_at: json['created_at'],
-      isFavorite: json['isFavorite'],
       platArea: json['platArea'],
       archArea: json['archArea'],
       bcRat: json['bcRat'],
@@ -167,41 +164,5 @@ class PutOutBoard extends Equatable {
       'strctCdNm': strctCdNm,
       'totPkngCnt': totPkngCnt,
     };
-  }
-
-  @override
-  List<Object> get props => [
-        id,
-        author,
-        name,
-        contact,
-        area,
-        floor,
-        deposit,
-        price,
-        discussion,
-        client,
-        sort,
-        count,
-        range,
-        facility,
-        latitude,
-        longitude,
-        address,
-        detail_address,
-        created_at,
-        platArea,
-        archArea,
-        bcRat,
-        vlRat,
-        grndFlrCnt,
-        ugrndFlrCnt,
-        mainPurpsCdNm,
-        etcPurps,
-        strctCdNm,
-        totPkngCnt,
-      ];
-  void setFavorite(bool isFavorite) {
-    this.isFavorite = isFavorite;
   }
 }

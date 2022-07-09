@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage>
           HomeApp(),
           putOutPage1(),
           MapPage(),
-          FavoritePage(),
+          ViewMoreApp(),
           ViewMoreApp()
         ],
         controller: controller,
