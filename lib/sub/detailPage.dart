@@ -66,8 +66,9 @@ class _DetailPage extends State<DetailPage> {
                         await contentsRepository
                             .deleteMyFavoriteContent(putout.id);
                       } else {
+                        print(putout.toJson());
                         await contentsRepository
-                            .addMyFavoriteContent(putout.id);
+                            .addMyFavoriteContent(putout.toJson());
                       }
 
                       setState(() {
@@ -361,21 +362,4 @@ class _DetailPage extends State<DetailPage> {
       isMyFavoriteContent = ck;
     });
   }
-
-  // void wish(bool isPressed) {
-  //   if (isPressed == true) {
-  //     insertWish(widget.db!, putoutData);
-  //   }
-  // }
-
-  // void insertWish(Future<Database> db, PutOutBoard info) async {
-  //   final Database database = await db;
-  //   await database
-  //       .insert('wish', info.toMap(),
-  //           conflictAlgorithm: ConflictAlgorithm.replace)
-  //       .then((value) {
-  //     ScaffoldMessenger.of(context)
-  //         .showSnackBar(SnackBar(content: Text('즐겨찾기에 추가되었습니다')));
-  //   });
-  // }
 }

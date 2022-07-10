@@ -8,21 +8,22 @@ class ContentsRepository extends LocalStorageRepository {
   Future<List?> loadFavoriteContents() async {
     String? jsonString = await this.getValue(MY_FAVORITE_KEY);
     if (jsonString != null) {
-      List<dynamic> json = jsonDecode(jsonString);
-      return json;
+      Map<String, dynamic> json = jsonDecode(jsonString);
+      return json["favorites"];
     } else {
       return null;
     }
   }
 
-  addMyFavoriteContent(dynamic id) async {
-    List? favoriteContentList = await loadFavoriteContents();
-    if (favoriteContentList == null || !(favoriteContentList is List)) {
-      favoriteContentList = [id];
+  addMyFavoriteContent(Map<String, dynamic> putout) async {
+    List? loadLocalStorageDatas = await loadFavoriteContents();
+    if (loadLocalStorageDatas == null) {
+      loadLocalStorageDatas = [putout];
     } else {
-      favoriteContentList.add(id);
+      loadLocalStorageDatas.add(putout);
+      print(loadLocalStorageDatas);
     }
-    updateFavoriteContent(favoriteContentList); //저장
+    updateFavoriteContent(loadLocalStorageDatas); //저장
   }
 
   isMyFavoriteContents(dynamic id) async {
@@ -32,7 +33,7 @@ class ContentsRepository extends LocalStorageRepository {
       return false;
     } else {
       for (dynamic data in json) {
-        if (data == id) {
+        if (data["id"] == id) {
           isMyFavoriteContents = true;
           break;
         }
@@ -41,16 +42,18 @@ class ContentsRepository extends LocalStorageRepository {
     }
   }
 
-  deleteMyFavoriteContent(id) async {
-    List? favoriteContentList = await loadFavoriteContents();
-    if (favoriteContentList != null && favoriteContentList is List) {
-      favoriteContentList.removeWhere((data) => data == id);
+  Future<void> deleteMyFavoriteContent(dynamic id) async {
+    List? loadLocalStorageDatas = await loadFavoriteContents();
+    if (loadLocalStorageDatas != null) {
+      loadLocalStorageDatas.removeWhere((element) => element["id"] == id);
+      print(loadLocalStorageDatas);
     }
 
-    updateFavoriteContent(favoriteContentList);
+    updateFavoriteContent(loadLocalStorageDatas ?? []);
   }
 
-  void updateFavoriteContent(List? favoriteContentList) async {
-    await this.setValue(MY_FAVORITE_KEY, jsonEncode(favoriteContentList));
+  void updateFavoriteContent(List loadLocalStorageDatas) async {
+    Map<String, dynamic> myFavoriteDatas = {"favorites": loadLocalStorageDatas};
+    await this.setValue(MY_FAVORITE_KEY, jsonEncode(myFavoriteDatas));
   }
 }

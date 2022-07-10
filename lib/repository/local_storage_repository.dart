@@ -27,4 +27,12 @@ class LocalStorageRepository {
       print(exception);
     }
   }
+
+  Future<void> deleteAll() async {
+    try {
+      await _storage.deleteAll();
+    } catch (exception) {
+      print(exception);
+    }
+  }
 }
