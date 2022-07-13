@@ -46,6 +46,10 @@ class _DetailPage extends State<DetailPage> {
     'images/kakao1.jpg',
     'images/kakao1.jpg'
   ];
+  @override
+  void initState() {
+    _loadFavoriteContentState(pk);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +60,6 @@ class _DetailPage extends State<DetailPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             PutOutBoard putout = snapshot.data;
-            _loadFavoriteContentState(putout.id);
             return Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: AppBar(
