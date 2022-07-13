@@ -8,6 +8,7 @@ import 'package:flutter_application/sub/applySpace.dart';
 import 'package:flutter_application/sub/streetView.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:carousel_slider/carousel_slider.dart';
 
 const String kakaoMapKey = '914bf746372c7d98a25dc1582feaabd0';
 Future<PutOutBoard?> fetchPutOutBoard(var pk) async {
@@ -37,6 +38,14 @@ class _DetailPage extends State<DetailPage> {
 
   String imageUrl =
       'http://10.0.2.2:8000/media/media/putout/scaled_image_picker3614051294157898634.jpg';
+  int _current = 0;
+  List<String> imgList = [
+    'images/kakao1.jpg',
+    'images/kakao1.jpg',
+    'images/kakao1.jpg',
+    'images/kakao1.jpg',
+    'images/kakao1.jpg'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -99,19 +108,69 @@ class _DetailPage extends State<DetailPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Container(
-                        width: 200,
-                        height: 200,
-                        decoration: BoxDecoration(border: Border.all()),
-                        child: Image.network(
-                          imageUrl,
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                            return Image.asset('images/default.PNG',
-                                fit: BoxFit.contain);
-                          },
-                        ),
+                      // Container(
+                      //   width: 200,
+                      //   height: 200,
+                      //   decoration: BoxDecoration(border: Border.all()),
+                      //   child: Image.network(
+                      //     imageUrl,
+                      //     errorBuilder: (BuildContext context, Object exception,
+                      //         StackTrace? stackTrace) {
+                      //       return Image.asset('images/default.PNG',
+                      //           fit: BoxFit.contain);
+                      //     },
+                      //   ),
+                      // ),
+                      CarouselSlider(
+                        options: CarouselOptions(
+                            height: size.width * 0.8,
+                            initialPage: 0,
+                            enableInfiniteScroll: false,
+                            viewportFraction: 1.0,
+                            enlargeCenterPage: false,
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                _current = index;
+                              });
+                            }),
+                        items: imgList.map((i) {
+                          return Container(
+                            width: size.width,
+                            height: size.width,
+                            color: Colors.red,
+                            child: Image.network(
+                              imageUrl,
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                                return Image.asset('images/default.PNG',
+                                    fit: BoxFit.contain);
+                              },
+                            ),
+                          );
+                        }).toList(),
                       ),
+                      // Positioned(
+                      //   bottom: 0,
+                      //   left: 0,
+                      //   right: 0,
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: List.generate(imgList.length, (index) {
+                      //       return Container(
+                      //         width: 8.0,
+                      //         height: 8.0,
+                      //         margin: EdgeInsets.symmetric(
+                      //             vertical: 10.0, horizontal: 5.0),
+                      //         decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //           color: _current == index
+                      //               ? Colors.white
+                      //               : Colors.white.withOpacity(0.4),
+                      //         ),
+                      //       );
+                      //     }).toList(),
+                      //   ),
+                      // ),
                       TextButton(
                           child: Text(
                             '로드뷰',

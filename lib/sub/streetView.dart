@@ -13,10 +13,22 @@ class StreetViewPanoramaInitDemo extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Street View Init Demo'),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context),
+          title: Row(
+            children: [
+              const Text(
+                '로드맵',
+                style: TextStyle(color: Colors.black),
+              ),
+              const SizedBox(width: 4.0),
+              const Icon(
+                CupertinoIcons.chevron_down,
+                size: 15.0,
+              )
+            ],
+          ),
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(0.5),
+            child: Divider(thickness: 0.5, height: 0.5, color: Colors.grey),
           ),
         ),
         body: SafeArea(
@@ -110,9 +122,7 @@ class StreetViewPanoramaInitDemo extends StatelessWidget {
                  *  You should set [StreetViewCreatedCallback] to onStreetViewCreated.
                  *  And you can using [controller] to control street view.
                  */
-                onStreetViewCreated: (StreetViewController controller) async {
-                  
-                  },
+                onStreetViewCreated: (StreetViewController controller) async {},
               ),
             ],
           ),
