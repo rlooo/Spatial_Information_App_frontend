@@ -111,19 +111,6 @@ class _DetailPage extends State<DetailPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      // Container(
-                      //   width: 200,
-                      //   height: 200,
-                      //   decoration: BoxDecoration(border: Border.all()),
-                      //   child: Image.network(
-                      //     imageUrl,
-                      //     errorBuilder: (BuildContext context, Object exception,
-                      //         StackTrace? stackTrace) {
-                      //       return Image.asset('images/default.PNG',
-                      //           fit: BoxFit.contain);
-                      //     },
-                      //   ),
-                      // ),
                       CarouselSlider(
                         options: CarouselOptions(
                             height: size.width * 0.8,

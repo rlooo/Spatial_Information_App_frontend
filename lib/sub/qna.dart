@@ -30,6 +30,7 @@ Future<List<QnA>?> fetchQnA() async {
         content: qna['content'],
         answer: qna['answer'],
         created_at: qna['created_at'],
+        author:qna['author_name']
       ));
     }
     return entries;
@@ -79,14 +80,19 @@ class _QnAPage extends State<QnAPage> {
                 padding: const EdgeInsets.all(8),
                 itemCount: qnaArray.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(children: <Widget>[
+                  return ListTile(
+                      // padding: const EdgeInsets.all(16),
+                      title: Column(children: <Widget>[
                         Text('${qnaArray[index].title}'),
                         Text('${qnaArray[index].created_at}'),
-                        Text('${qnaArray[index].content}'),
-                        Text('${qnaArray[index].answer}'),
-                      ]));
+                        Text('${qnaArray[index].author}'),
+                      ]),
+                      onTap:(){
+                         Get.to(() => DetailQnAPage(),
+                            arguments: qnaArray[index]);
+
+                      },
+                      );
                 },
                 separatorBuilder: (BuildContext context, int index) =>
                     const Divider(),
@@ -197,5 +203,64 @@ class NewQnAPage extends StatelessWidget {
         backgroundColor: Colors.grey,
         textColor: Colors.white,
         fontSize: 15.0);
+  }
+}
+
+class DetailQnAPage extends StatefulWidget {
+  @override
+  _DetailQnAPage createState() => _DetailQnAPage();
+}
+
+class _DetailQnAPage extends State<DetailQnAPage> {
+  var qna_obj = Get.arguments;
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: fetchQnA(),
+        builder: (
+          BuildContext context,
+          AsyncSnapshot snapshot,
+        ) {
+          if (snapshot.hasData) {
+            qnaArray = snapshot.data;
+            return Scaffold(
+              appBar: AppBar(
+                title: Row(
+                  children: [
+                    const Text(
+                      'Q&A',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    const SizedBox(width: 4.0),
+                    const Icon(
+                      CupertinoIcons.chevron_down,
+                      size: 15.0,
+                    )
+                  ],
+                ),
+                bottom: const PreferredSize(
+                  preferredSize: Size.fromHeight(0.5),
+                  child:
+                      Divider(thickness: 0.5, height: 0.5, color: Colors.grey),
+                ),
+              ),
+              body: Center(
+                child: Container(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(children: <Widget>[
+                          Text('제목 : ${qna_obj.title}'),
+                          Text('작성자 : ${qna_obj.author}'),
+                          Text('작성일시 : ${qna_obj.created_at}'),
+                          Text('내용 : ${qna_obj.content}'),
+                          Text('답변 : ${qna_obj.answer}'),
+                          
+                        ])),
+              )
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return CircularProgressIndicator();
+        });
   }
 }
