@@ -4,7 +4,7 @@ Function validateUsername() {
   //GetUtils.isEmail()
   return (String? value) {
     if (value!.isEmpty) {
-      return "유저네임에 들어갈 수 없습니다.";
+      return "이름에 들어갈 수 없습니다.";
     } else if (!isAlphanumeric(value)) {
       return "유저네임에 한글이나 특수 문자가 들어갈 수 없습니다.";
     } else if (value.length > 12) {
@@ -66,3 +66,13 @@ Function validateContent() {
     }
   };
 }
+Function validateRemarks() {
+  return (String? value) {
+    if (value!.length > 500) {
+      return "내용의 길이를 초과하였습니다.";
+    } else {
+      return null;
+    }
+  };
+}
+
