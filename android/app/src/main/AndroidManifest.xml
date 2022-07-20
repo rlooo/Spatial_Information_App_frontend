@@ -70,7 +70,7 @@
        </activity>
 
        <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyAmtuF2QPubtProGx_a-m06IrfXE_Gd1UQ"/>
+           android:value="AIzaSyCl85uuz7qlxVnWnKLFyx2iOf4pTBxIn7g"/>
 
     </application>
     <queries>

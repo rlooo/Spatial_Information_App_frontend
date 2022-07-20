@@ -15,7 +15,7 @@ class PutOutBoard {
   var sort;
   var count;
   var range;
-  var images;
+  List<dynamic>? imgList;
   var facility;
   var latitude;
   var longitude;
@@ -48,6 +48,7 @@ class PutOutBoard {
     this.sort,
     this.count,
     this.range,
+    this.imgList,
     this.facility,
     this.latitude,
     this.longitude,
@@ -64,6 +65,7 @@ class PutOutBoard {
     this.etcPurps, //기타용도
     this.strctCdNm, //구조
     this.totPkngCnt, //총주차수
+    
   });
 
   factory PutOutBoard.fromJson(Map<String, dynamic> json) {
@@ -81,6 +83,7 @@ class PutOutBoard {
       sort: json['sort'],
       count: json['count'],
       range: json['range'],
+      imgList:json['imgList'],
       facility: json['facility'],
       latitude: json['kakaoLatitude'],
       longitude: json['kakaoLongitude'],
@@ -114,6 +117,7 @@ class PutOutBoard {
         'sort': sort,
         'count': count,
         'range': range,
+        'imgList':imgList,
         'facility': facility,
         'latitude': latitude,
         'longitude': longitude,
@@ -147,6 +151,7 @@ class PutOutBoard {
       'sort': sort,
       'count': count,
       'range': range,
+      'imgList':imgList,
       'facility': facility,
       'latitude': latitude,
       'longitude': longitude,

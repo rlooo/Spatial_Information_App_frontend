@@ -13,24 +13,24 @@ class StreetViewPanoramaInitDemo extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Row(
-            children: [
-              const Text(
-                '로드맵',
-                style: TextStyle(color: Colors.black),
-              ),
-              const SizedBox(width: 4.0),
-              const Icon(
-                CupertinoIcons.chevron_down,
-                size: 15.0,
-              )
-            ],
-          ),
-          bottom: const PreferredSize(
-            preferredSize: Size.fromHeight(0.5),
-            child: Divider(thickness: 0.5, height: 0.5, color: Colors.grey),
-          ),
+        title: Row(
+          children: [
+            const Text(
+              '로드뷰',
+              style: TextStyle(color: Colors.black),
+            ),
+            const SizedBox(width: 4.0),
+            const Icon(
+              CupertinoIcons.chevron_down,
+              size: 15.0,
+            )
+          ],
         ),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(0.5),
+          child: Divider(thickness: 0.5, height: 0.5, color: Colors.grey),
+        ),
+      ),
         body: SafeArea(
           child: Stack(
             children: [

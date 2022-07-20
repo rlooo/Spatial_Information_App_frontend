@@ -47,6 +47,10 @@ class _putOutPage2 extends State<putOutPage2> {
   List<XFile> pickedImgs = [];
 
   bool _isChecked = false;
+  List<bool> _selections1 = List.generate(2, (index) => false);
+  List<bool> _selections2 = List.generate(3, (index) => false);
+  List<bool> _selections3 = List.generate(3, (index) => false);
+  List<bool> _selections4 = List.generate(2, (index) => false);
 
   //주소
   String postCode = '-';
@@ -121,8 +125,7 @@ class _putOutPage2 extends State<putOutPage2> {
                                 latitude = result.latitude.toString();
                                 longitude = result.longitude.toString();
                                 kakaoLatitude = result.kakaoLatitude.toString();
-                                kakaoLongitude =
-                                    result.kakaoLongitude.toString();
+                                kakaoLongitude = result.kakaoLongitude.toString();
                               });
                             },
                           ),
@@ -130,14 +133,9 @@ class _putOutPage2 extends State<putOutPage2> {
                       );
                     },
                     style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                          side: BorderSide(
-                              color: Colors.black,
-                              width: 1,
-                              style: BorderStyle.solid),
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.black, width: 1, style: BorderStyle.solid),
                           borderRadius: BorderRadius.all(
                             Radius.circular(30.0),
                           ),
@@ -211,141 +209,147 @@ class _putOutPage2 extends State<putOutPage2> {
                 '\n의뢰인',
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center, // 가운데 정렬
-                children: <Widget>[
-                  ElevatedButton(
-                      child: Text(
-                        '건물주',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
-                      onPressed: () {
-                        client = 1;
-                      }),
-                  ElevatedButton(
-                      child: Text(
-                        '가게주',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
-                      onPressed: () {
-                        client = 2;
-                      }),
-                ],
+              Center(
+                child: ToggleButtons(
+                  borderRadius:BorderRadius.circular(10),
+                  children: <Widget>[
+                    Text(
+                      '건물주',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    Text(
+                      '가게주',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ],
+                  onPressed: (int index) {
+                    setState(() {
+                      if (index == 0) {
+                        _selections1[1] = false;
+                      } else {
+                        _selections1[0] = false;
+                      }
+                      _selections1[index] = !_selections1[index];
+                      client = index + 1;
+                    });
+                  },
+                  isSelected: _selections1,
+                ),
               ),
               Text(
                 '\n원하시는 거래 종류',
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center, // 가운데 정렬
-                children: <Widget>[
-                  ElevatedButton(
-                      child: Text(
-                        '전체',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
-                      onPressed: () {
-                        sort = 1;
-                      }),
-                  ElevatedButton(
-                      child: Text(
-                        '월세',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
-                      onPressed: () {
-                        sort = 2;
-                      }),
-                  ElevatedButton(
-                      child: Text(
-                        '전세',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
-                      onPressed: () {
-                        sort = 3;
-                      }),
-                ],
+              Center(
+                child: ToggleButtons(
+                  borderRadius:BorderRadius.circular(10),
+                  children: <Widget>[
+                    Text(
+                      '전체',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    Text(
+                      '월세',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    Text(
+                      '전세',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ],
+                  onPressed: (int index) {
+                    setState(() {
+                      if (index == 0) {
+                        _selections2[1] = false;
+                        _selections2[2] = false;
+                      } else if (index == 1) {
+                        _selections2[0] = false;
+                        _selections2[2] = false;
+                      } else {
+                        _selections2[0] = false;
+                        _selections2[1] = false;
+                      }
+                      _selections2[index] = !_selections2[index];
+                      sort = index + 1;
+                    });
+                  },
+                  isSelected: _selections2,
+                ),
               ),
               Text(
                 '\n내놓으실 공간 갯수',
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center, // 가운데 정렬
-                children: <Widget>[
-                  ElevatedButton(
-                      child: Text(
-                        '1개',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
-                      onPressed: () {
-                        count = 1;
-                      }),
-                  ElevatedButton(
-                      child: Text(
-                        '2개',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
-                      onPressed: () {
-                        count = 2;
-                      }),
-                  ElevatedButton(
-                      child: Text(
-                        '3개+',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
-                      onPressed: () {
-                        count = 3;
-                      }),
-                ],
+              Center(
+                child: ToggleButtons(
+                  borderRadius:BorderRadius.circular(10),
+                  children: <Widget>[
+                    Text(
+                      '1개',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    Text(
+                      '2개',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    Text(
+                      '3개+',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ],
+                  onPressed: (int index) {
+                    setState(() {
+                      if (index == 0) {
+                        _selections3[1] = false;
+                        _selections3[2] = false;
+                      } else if (index == 1) {
+                        _selections3[0] = false;
+                        _selections3[2] = false;
+                      } else {
+                        _selections3[0] = false;
+                        _selections3[1] = false;
+                      }
+                      _selections3[index] = !_selections3[index];
+                      count = index + 1;
+                    });
+                  },
+                  isSelected: _selections3,
+                ),
               ),
+              
               Text(
                 '\n공간 사용범위',
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
-              ElevatedButton(
-                  child: Text(
-                    '상가, 점포로만 사용하는 게 좋아요',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white)),
-                  onPressed: () {
-                    range = 1;
-                  }),
-              ElevatedButton(
-                  child: Text(
-                    '상가, 점포와 사무실 둘 다 사용 가능해요',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white)),
-                  onPressed: () {
-                    range = 2;
-                  }),
+              Center(
+                child: ToggleButtons(
+                  borderRadius:BorderRadius.circular(10),
+                  children: <Widget>[
+                    
+                    Text(
+                      '  상가, 점포로만  \n  사용하는 게 좋아요  ',textAlign:TextAlign.center,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    Text(
+                      '  상가, 점포와 사무실  \n  둘 다 사용 가능해요  ',textAlign:TextAlign.center,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ],
+                  onPressed: (int index) {
+                    setState(() {
+                      if (index == 0) {
+                        _selections4[1] = false;
+                      } else {
+                        _selections4[0] = false;
+                      }
+                      _selections4[index] = !_selections4[index];
+                      range = index + 1;
+                    });
+                  },
+                  isSelected: _selections4,
+                ),
+              ),
+              
               Text(
                 '\n시설정보',
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
@@ -507,7 +511,7 @@ class _putOutPage2 extends State<putOutPage2> {
               CustomTextArea(
                 controller: _remarks,
                 hint: "비고란",
-                funValidator: validateContent(),
+                funValidator: validateRemarks(),
               ),
               ListTile(
                 title: Text('\n사진업로드\n'),
@@ -542,10 +546,7 @@ class _putOutPage2 extends State<putOutPage2> {
     }
 
     FormData _formData;
-    final List<MultipartFile> _files = pickedImgs
-        .map((img) => MultipartFile.fromFileSync(img.path,
-            contentType: MediaType("image", "jpg")))
-        .toList();
+    final List<MultipartFile> _files = pickedImgs.map((img) => MultipartFile.fromFileSync(img.path, contentType: MediaType("image", "jpg"))).toList();
 
     _formData = FormData.fromMap({
       'file': _files,

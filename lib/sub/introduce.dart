@@ -32,7 +32,7 @@ class IntroducePage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(10),
               //모든 내부 면에 여백
-              height: 350,
+              height: 250,
               margin: EdgeInsets.only(top: 20.0),
               decoration: BoxDecoration(
                 color: Color(0xff662D91),
@@ -54,29 +54,29 @@ class IntroducePage extends StatelessWidget {
                     textAlign: TextAlign.left,
                     style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
-                  SizedBox(
-                    height: 50.0,
-                  ),
-                  ElevatedButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(Icons.download, color: Colors.white, size: 18),
-                          Text('공고문 다운로드'),
-                        ],
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Color(0xff662D91)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(
-                              color: Colors.white), // border line color
-                        )),
-                      ),
-                      onPressed: () {}),
+                  // SizedBox(
+                  //   height: 50.0,
+                  // ),
+                  // ElevatedButton(
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.start,
+                  //       children: [
+                  //         Icon(Icons.download, color: Colors.white, size: 18),
+                  //         Text('공고문 다운로드'),
+                  //       ],
+                  //     ),
+                  //     style: ButtonStyle(
+                  //       backgroundColor:
+                  //           MaterialStateProperty.all(Color(0xff662D91)),
+                  //       shape:
+                  //           MaterialStateProperty.all<RoundedRectangleBorder>(
+                  //               RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(18.0),
+                  //         side: BorderSide(
+                  //             color: Colors.white), // border line color
+                  //       )),
+                  //     ),
+                  //     onPressed: () {}),
                 ],
               ),
             ),

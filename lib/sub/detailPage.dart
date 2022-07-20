@@ -129,7 +129,7 @@ class _DetailPage extends State<DetailPage> {
                             height: size.width,
                             color: Colors.red,
                             child: Image.network(
-                              imageUrl,
+                              imageUrl,fit: BoxFit.fitWidth,
                               errorBuilder: (BuildContext context,
                                   Object exception, StackTrace? stackTrace) {
                                 return Image.asset('images/default.PNG',
