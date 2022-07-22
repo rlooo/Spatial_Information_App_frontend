@@ -14,6 +14,7 @@ class MyFavoritePage extends StatefulWidget {
 }
 
 class _MyFavoritePage extends State<MyFavoritePage> {
+  String serverUrl = 'http://10.0.2.2:8000';
   final TokenController t = Get.put(TokenController());
   ContentsRepository contentsRepository = ContentsRepository();
 

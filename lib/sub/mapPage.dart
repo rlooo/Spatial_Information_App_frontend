@@ -219,7 +219,7 @@ class _MapPageState extends State<MapPage> {
 
     for (int i = 0; i < buildingArray.length; i++) {
       displayMarker +=
-          "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, $i, ${buildingArray[i].price}, ${buildingArray[i].deposit}, ${buildingArray[i].area}, ${buildingArray[i].floor}, ${buildingArray[i].range}, '${buildingArray[i].address}')\n";
+          "displayMarker(${buildingArray[i].latitude}, ${buildingArray[i].longitude}, $i, ${buildingArray[i].price}, ${buildingArray[i].deposit}, ${buildingArray[i].area}, ${buildingArray[i].floor}, ${buildingArray[i].range}, '${buildingArray[i].address}'})\n";
     }
 
     return displayMarker;

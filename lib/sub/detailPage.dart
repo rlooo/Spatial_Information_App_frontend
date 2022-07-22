@@ -36,16 +36,8 @@ class _DetailPage extends State<DetailPage> {
   bool isMyFavoriteContent = false;
   final ContentsRepository contentsRepository = ContentsRepository();
 
-  String imageUrl =
-      'http://10.0.2.2:8000/media/media/putout/scaled_image_picker3614051294157898634.jpg';
+  String serverUrl = 'http://10.0.2.2:8000';
   int _current = 0;
-  List<String> imgList = [
-    'images/kakao1.jpg',
-    'images/kakao1.jpg',
-    'images/kakao1.jpg',
-    'images/kakao1.jpg',
-    'images/kakao1.jpg'
-  ];
   @override
   void initState() {
     _loadFavoriteContentState(pk);
@@ -123,13 +115,13 @@ class _DetailPage extends State<DetailPage> {
                                 _current = index;
                               });
                             }),
-                        items: imgList.map((i) {
+                        items: putout.imgList!.map((i) {
                           return Container(
                             width: size.width,
                             height: size.width,
                             color: Colors.red,
                             child: Image.network(
-                              imageUrl,fit: BoxFit.fitWidth,
+                              serverUrl+i,fit: BoxFit.fitWidth,
                               errorBuilder: (BuildContext context,
                                   Object exception, StackTrace? stackTrace) {
                                 return Image.asset('images/default.PNG',
@@ -139,28 +131,6 @@ class _DetailPage extends State<DetailPage> {
                           );
                         }).toList(),
                       ),
-                      // Positioned(
-                      //   bottom: 0,
-                      //   left: 0,
-                      //   right: 0,
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: List.generate(imgList.length, (index) {
-                      //       return Container(
-                      //         width: 8.0,
-                      //         height: 8.0,
-                      //         margin: EdgeInsets.symmetric(
-                      //             vertical: 10.0, horizontal: 5.0),
-                      //         decoration: BoxDecoration(
-                      //           shape: BoxShape.circle,
-                      //           color: _current == index
-                      //               ? Colors.white
-                      //               : Colors.white.withOpacity(0.4),
-                      //         ),
-                      //       );
-                      //     }).toList(),
-                      //   ),
-                      // ),
                       TextButton(
                           child: Text(
                             '로드뷰',
