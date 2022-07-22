@@ -244,18 +244,62 @@ class _DetailQnAPage extends State<DetailQnAPage> {
                       Divider(thickness: 0.5, height: 0.5, color: Colors.grey),
                 ),
               ),
-              body: Center(
-                child: Container(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(children: <Widget>[
-                          Text('제목 : ${qna_obj.title}'),
+              body:Center(
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(5),
+                width: 300,
+                height: 35,
+ decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 1.0, color: Colors.black12),
+          ),
+          color: Colors.white,
+        ),
+                child: Text('${qna_obj.title}',  style: TextStyle(fontWeight: FontWeight.bold,), textAlign: TextAlign.center)
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(5),
+                width: 300,
+                height: 65,
+                decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 1.0, color: Colors.black12),
+          ),
+          color: Colors.white,
+        ),
+                child: Column(children: <Widget>[
                           Text('작성자 : ${qna_obj.author}'),
                           Text('작성일시 : ${qna_obj.created_at}'),
-                          Text('내용 : ${qna_obj.content}'),
-                          Text('답변 : ${qna_obj.answer}'),
-                          
-                        ])),
-              )
+                ]
+                )
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(5),
+                width: 300,
+                height: 230,
+                decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), //모서리를 둥글게
+            border: Border.all(color: Colors.black12, width: 1)), //테두리
+                child: Text('내용 : ${qna_obj.content}'),
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(5),
+                width: 300,
+                height: 230,
+                decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), //모서리를 둥글게
+            border: Border.all(color: Colors.black12, width: 1)), //테두리
+                child: Text('답변 : ${qna_obj.answer}'),
+              ),
+            ],
+          ),
+        )
             );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
